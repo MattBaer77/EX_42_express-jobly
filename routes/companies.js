@@ -52,18 +52,6 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 
 router.get("/", async function (req, res, next) {
 
-  // if (Object.keys(req.query).length === 0) {
-  //   console.log("No Query String")
-
-  //   try {
-  //     const companies = await Company.findAll();
-  //     return res.json({ companies });
-  //   } catch (err) {
-  //     return next(err);
-  //   }
-
-  // }
-
   if (!req.query.nameLike && !req.query.maxEmployees && !req.query.minEmployees) {
 
     console.log(req.query)
