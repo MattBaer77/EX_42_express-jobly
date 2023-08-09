@@ -52,8 +52,23 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 
 router.get("/", async function (req, res, next) {
 
-  if (Object.keys(req.query).length === 0) {
-    console.log("No Query String")
+  // if (Object.keys(req.query).length === 0) {
+  //   console.log("No Query String")
+
+  //   try {
+  //     const companies = await Company.findAll();
+  //     return res.json({ companies });
+  //   } catch (err) {
+  //     return next(err);
+  //   }
+
+  // }
+
+  if (!req.query.nameLike && !req.query.maxEmployees && !req.query.minEmployees) {
+
+    console.log(req.query)
+
+    console.log({message:"Unfiltered Search"})
 
     try {
       const companies = await Company.findAll();
@@ -64,32 +79,57 @@ router.get("/", async function (req, res, next) {
 
   }
 
+  if (!req.query.maxEmployees && !req.query.minEmployees) {
+
+    console.log(req.query)
+
+    return res.json({message:"Name Only Search"})
+
+  }
+
+  if (!req.query.nameLike && !req.query.minEmployees) {
+
+    return res.json({message:"No Name Like + No Min = Max Only Search"})
+
+  }
+
+  if (!req.query.nameLike && !req.query.maxEmployees) {
+
+    return res.json({message:"No Name Like + No Min = Min Only Search"})
+
+  } 
+  
+  if (req.query.nameLike && !req.query.maxEmployees) {
+
+    return res.json({message:"Name + Min Search"})
+
+  }
+  
+  if (req.query.nameLike && !req.query.minEmployees) {
+
+    return res.json({message:"Name + Max Search"})
+
+  }
+
   if (!req.query.nameLike) {
-    console.log("No namelike")
 
-    if (!req.query.minEmployees) {
-      console.log("No Min")
-    }
-    if (!req.query.maxEmployees) {
-      console.log("No Min")
-    }
+    return res.json({message: "Min + Max Only Search"})
 
-    console.log("Both Min and Max")
+  }
+  
+  if (!req.query.maxEmployees) {
+
+    return res.json({message:"Min Search"})
+
+  }
+  
+  if (!req.query.minEmployees) {
+
+    return res.json({message:"Max Search"})
 
   } else {
 
-    console.log("Yes nameLike")
-
-    if (!req.query.minEmployees) {
-      console.log("No Min")
-    }
-    if (!req.query.maxEmployees) {
-      console.log("No Min")
-    }
-  
-    console.log("Both Min and Max")
-  
-    console.log(req.query)
+    return res.json({message:"Name + Min + Max Search"})
 
   }
 
