@@ -51,12 +51,48 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
  */
 
 router.get("/", async function (req, res, next) {
-  try {
-    const companies = await Company.findAll();
-    return res.json({ companies });
-  } catch (err) {
-    return next(err);
+
+  if (Object.keys(req.query).length === 0) {
+    console.log("No Query String")
+
+    try {
+      const companies = await Company.findAll();
+      return res.json({ companies });
+    } catch (err) {
+      return next(err);
+    }
+
   }
+
+  if (!req.query.nameLike) {
+    console.log("No namelike")
+
+    if (!req.query.minEmployees) {
+      console.log("No Min")
+    }
+    if (!req.query.maxEmployees) {
+      console.log("No Min")
+    }
+
+    console.log("Both Min and Max")
+
+  } else {
+
+    console.log("Yes nameLike")
+
+    if (!req.query.minEmployees) {
+      console.log("No Min")
+    }
+    if (!req.query.maxEmployees) {
+      console.log("No Min")
+    }
+  
+    console.log("Both Min and Max")
+  
+    console.log(req.query)
+
+  }
+
 });
 
 /** GET /[handle]  =>  { company }
