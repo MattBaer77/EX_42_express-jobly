@@ -108,6 +108,114 @@ describe("GET /companies", function () {
   });
 });
 
+describe("GET /companies?filters", function () {
+  test("ok for anon", async function () {
+    const resp = await request(app).get("/companies");
+    expect(resp.body).toEqual({
+      companies:
+          [
+            {
+              handle: "c1",
+              name: "C1",
+              description: "Desc1",
+              numEmployees: 1,
+              logoUrl: "http://c1.img",
+            },
+            {
+              handle: "c2",
+              name: "C2",
+              description: "Desc2",
+              numEmployees: 2,
+              logoUrl: "http://c2.img",
+            },
+            {
+              handle: "c3",
+              name: "C3",
+              description: "Desc3",
+              numEmployees: 3,
+              logoUrl: "http://c3.img",
+            },
+          ],
+    });
+  });
+
+  // TEMP TESTS TO DEVELOP FILTERS ROUTE LOGIC
+  test("ok for anon - filter - Name + Min + Max", async function () {
+    const resp = await request(app).get("/companies?nameLike=FauxName&maxEmployees=100&minEmployees=10");
+    expect(resp.body).toEqual(
+
+        {message:"Name + Min + Max Search"}
+      
+      );
+  });
+
+  test("ok for anon - filter - Name + Min", async function () {
+    const resp = await request(app).get("/companies?nameLike=FauxName&minEmployees=10");
+    expect(resp.body).toEqual(
+
+        {message:"Name + Min Search"}
+      
+      );
+  });
+
+  test("ok for anon - filter - Name + Max", async function () {
+    const resp = await request(app).get("/companies?nameLike=FauxName&maxEmployees=100");
+    expect(resp.body).toEqual(
+
+        {message:"Name + Max Search"}
+      
+      );
+  });
+
+  test("ok for anon - filter - Min ONLY", async function () {
+    const resp = await request(app).get("/companies?minEmployees=10");
+    expect(resp.body).toEqual(
+
+        {message:"Min Only Search"}
+      
+      );
+  });
+
+  test("ok for anon - filter - Max ONLY", async function () {
+    const resp = await request(app).get("/companies?maxEmployees=100");
+    expect(resp.body).toEqual(
+
+        {message:"Max Only Search"}
+      
+      );
+  });
+
+  test("ok for anon - filter - Min + Max", async function () {
+    const resp = await request(app).get("/companies?maxEmployees=100&minEmployees=10");
+    expect(resp.body).toEqual(
+
+        {message:"Min + Max Search"}
+      
+      );
+  });
+
+  test("ok for anon - filter - Name Only Search", async function () {
+    const resp = await request(app).get("/companies?nameLike=FauxName");
+    expect(resp.body).toEqual(
+
+        {message:"Name Only Search"}
+      
+      );
+  });
+  // TEMP TESTS TO DEVELOP FILTERS ROUTE LOGIC
+
+  // test("fails: test next() handler", async function () {
+  //   // there's no normal failure event which will cause this route to fail ---
+  //   // thus making it hard to test that the error-handler works with it. This
+  //   // should cause an error, all right :)
+  //   await db.query("DROP TABLE companies CASCADE");
+  //   const resp = await request(app)
+  //       .get("/companies")
+  //       .set("authorization", `Bearer ${u1Token}`);
+  //   expect(resp.statusCode).toEqual(500);
+  // });
+});
+
 /************************************** GET /companies/:handle */
 
 describe("GET /companies/:handle", function () {

@@ -77,13 +77,13 @@ router.get("/", async function (req, res, next) {
 
   if (!req.query.nameLike && !req.query.minEmployees) {
 
-    return res.json({message:"No Name Like + No Min = Max Only Search"})
+    return res.json({message:"Max Only Search"})
 
   }
 
   if (!req.query.nameLike && !req.query.maxEmployees) {
 
-    return res.json({message:"No Name Like + No Min = Min Only Search"})
+    return res.json({message:"Min Only Search"})
 
   } 
   
@@ -101,19 +101,7 @@ router.get("/", async function (req, res, next) {
 
   if (!req.query.nameLike) {
 
-    return res.json({message: "Min + Max Only Search"})
-
-  }
-  
-  if (!req.query.maxEmployees) {
-
-    return res.json({message:"Min Search"})
-
-  }
-  
-  if (!req.query.minEmployees) {
-
-    return res.json({message:"Max Search"})
+    return res.json({message: "Min + Max Search"})
 
   } else {
 
