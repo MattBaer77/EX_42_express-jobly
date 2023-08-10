@@ -351,7 +351,7 @@ describe("findMaxEmployeesOnly", function () {
 
   test("works: finds c1 and c2 with 2", async function () {
 
-        const data = {maxEmployees:2}
+    const data = {maxEmployees:2}
 
     let companies = await Company.findMaxEmployeesOnly(data);
     expect(companies).toEqual([
@@ -376,7 +376,7 @@ describe("findMaxEmployeesOnly", function () {
 
   test("works: finds c1 with 1", async function () {
 
-        const data = {maxEmployees:1}
+    const data = {maxEmployees:1}
 
     let companies = await Company.findMaxEmployeesOnly(data);
     expect(companies).toEqual([
@@ -393,7 +393,7 @@ describe("findMaxEmployeesOnly", function () {
 
   test("works: finds nothing with 0", async function () {
 
-        const data = {maxEmployees:0}
+    const data = {maxEmployees:0}
 
     let companies = await Company.findMaxEmployeesOnly(data);
     expect(companies).toEqual([
@@ -472,7 +472,7 @@ describe("findMinEmployeesOnly", function () {
 
   test("works: finds c2 and c3 with 2", async function () {
 
-        const data = {minEmployees:2}
+    const data = {minEmployees:2}
 
     let companies = await Company.findMinEmployeesOnly(data);
     expect(companies).toEqual([
@@ -496,7 +496,7 @@ describe("findMinEmployeesOnly", function () {
 
   test("works: finds c3 with 3", async function () {
 
-        const data = {minEmployees:3}
+    const data = {minEmployees:3}
 
     let companies = await Company.findMinEmployeesOnly(data);
     expect(companies).toEqual([
@@ -513,7 +513,7 @@ describe("findMinEmployeesOnly", function () {
 
   test("works: finds nothing with 4", async function () {
 
-        const data = {minEmployees:4}
+    const data = {minEmployees:4}
 
     let companies = await Company.findMinEmployeesOnly(data);
     expect(companies).toEqual([]);
@@ -590,7 +590,7 @@ describe("findNameLikeMinEmployees", function () {
 
   test("works: finds c2 and c3 with 'c' and 2", async function () {
 
-        const data = {nameLike:'c', minEmployees:2}
+    const data = {nameLike:'c', minEmployees:2}
 
     let companies = await Company.findNameLikeMinEmployees(data);
     expect(companies).toEqual([
@@ -614,7 +614,7 @@ describe("findNameLikeMinEmployees", function () {
 
   test("works: finds c3 with 'c' and 3", async function () {
 
-        const data = {nameLike:'c', minEmployees:3}
+    const data = {nameLike:'c', minEmployees:3}
 
     let companies = await Company.findNameLikeMinEmployees(data);
     expect(companies).toEqual([
@@ -631,7 +631,7 @@ describe("findNameLikeMinEmployees", function () {
 
   test("works: finds nothing with 'c' and 4", async function () {
 
-        const data = {nameLike:'c', minEmployees:4}
+    const data = {nameLike:'c', minEmployees:4}
 
     let companies = await Company.findNameLikeMinEmployees(data);
     expect(companies).toEqual([]);
@@ -658,7 +658,7 @@ describe("findNameLikeMinEmployees", function () {
 
   test("works: finds nothing with 'b' and 2", async function () {
 
-        const data = {nameLike:'b', minEmployees:2}
+    const data = {nameLike:'b', minEmployees:2}
 
     let companies = await Company.findNameLikeMinEmployees(data);
     expect(companies).toEqual([]);
@@ -667,7 +667,7 @@ describe("findNameLikeMinEmployees", function () {
 
   test("works: finds nothing with 'b' and 3", async function () {
 
-        const data = {nameLike:'b', minEmployees:3}
+    const data = {nameLike:'b', minEmployees:3}
 
     let companies = await Company.findNameLikeMinEmployees(data);
     expect(companies).toEqual([]);
@@ -722,7 +722,7 @@ describe("findNameLikeMaxEmployees", function () {
 
   test("works: finds c1 and c2 with 'c' and 2", async function () {
 
-        const data = {nameLike:'c', maxEmployees:2}
+    const data = {nameLike:'c', maxEmployees:2}
 
     let companies = await Company.findNameLikeMaxEmployees(data);
     expect(companies).toEqual([
@@ -747,7 +747,7 @@ describe("findNameLikeMaxEmployees", function () {
 
   test("works: finds c1 with 'c' and 1", async function () {
 
-        const data = {nameLike:'c', maxEmployees:1}
+    const data = {nameLike:'c', maxEmployees:1}
 
     let companies = await Company.findNameLikeMaxEmployees(data);
     expect(companies).toEqual([
@@ -764,7 +764,7 @@ describe("findNameLikeMaxEmployees", function () {
 
   test("works: finds nothing with 'c' and 0", async function () {
 
-        const data = {nameLike:'c', maxEmployees:0}
+    const data = {nameLike:'c', maxEmployees:0}
 
     let companies = await Company.findNameLikeMaxEmployees(data);
     expect(companies).toEqual([
@@ -772,8 +772,6 @@ describe("findNameLikeMaxEmployees", function () {
     ]);
 
   })
-
-  // 
 
   test("works: finds nothing with 'b' and 3", async function () {
 
@@ -786,7 +784,7 @@ describe("findNameLikeMaxEmployees", function () {
 
   test("works: finds nothing with 'b' and 2", async function () {
 
-        const data = {nameLike:'b', maxEmployees:2}
+    const data = {nameLike:'b', maxEmployees:2}
 
     let companies = await Company.findNameLikeMaxEmployees(data);
     expect(companies).toEqual([]);
@@ -795,7 +793,7 @@ describe("findNameLikeMaxEmployees", function () {
 
   test("works: finds nothing with 'b' and 1", async function () {
 
-        const data = {nameLike:'b', maxEmployees:1}
+    const data = {nameLike:'b', maxEmployees:1}
 
     let companies = await Company.findNameLikeMaxEmployees(data);
     expect(companies).toEqual([]);
@@ -804,7 +802,7 @@ describe("findNameLikeMaxEmployees", function () {
 
   test("works: finds nothing with 'b' and 0", async function () {
 
-        const data = {nameLike:'b', maxEmployees:0}
+    const data = {nameLike:'b', maxEmployees:0}
 
     let companies = await Company.findNameLikeMaxEmployees(data);
     expect(companies).toEqual([
@@ -817,6 +815,228 @@ describe("findNameLikeMaxEmployees", function () {
 
 /************************************** findMinMaxEmployees */
 
+describe("findMinMaxEmployees", function () {
+
+  test("works: finds all with 0 and 3", async function () {
+
+    const data = {minEmployees:0, maxEmployees:3}
+
+    let companies = await Company.findMinMaxEmployees(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+    
+  })
+
+  test("works: finds all with 1 and 3", async function () {
+
+    const data = {minEmployees:1, maxEmployees:3}
+
+    let companies = await Company.findMinMaxEmployees(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+
+  })
+
+  test("works: finds c2 and c3 with 2 and 3", async function () {
+
+    const data = {minEmployees:2, maxEmployees:3}
+
+    let companies = await Company.findMinMaxEmployees(data);
+    expect(companies).toEqual([
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+
+  })
+
+  test("works: finds c3 with 3 and 3", async function () {
+
+    const data = {minEmployees:3, maxEmployees:3}
+
+    let companies = await Company.findMinMaxEmployees(data);
+    expect(companies).toEqual([
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+
+  })
+
+  test("works: finds nothing with 4 and 3", async function () {
+
+    const data = {minEmployees:4, maxEmployees:3}
+
+    let companies = await Company.findMinMaxEmployees(data);
+    expect(companies).toEqual([]);
+
+  })
+
+  // // 
+
+
+  test("works: finds c1 and c2 with 0 and 2", async function () {
+
+    const data = {minEmployees:0, maxEmployees:2}
+
+    let companies = await Company.findMinMaxEmployees(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+
+    ]);
+
+  })
+
+  test("works: finds c1 with 0 and 1", async function () {
+
+    const data = {minEmployees:0, maxEmployees:1}
+
+    let companies = await Company.findMinMaxEmployees(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+    ]);
+
+  })
+
+  test("works: finds nothing with 0 and 0", async function () {
+
+    const data = {minEmployees:0, maxEmployees:0}
+
+    let companies = await Company.findMinMaxEmployees(data);
+    expect(companies).toEqual([]);
+
+  })
+
+  test("works: finds c1 with 1 and 1", async function () {
+
+    const data = {minEmployees:1, maxEmployees:1}
+
+    let companies = await Company.findMinMaxEmployees(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+    ]);
+    
+  })
+
+  test("works: finds c2 with 2 and 2", async function () {
+
+    const data = {minEmployees:2, maxEmployees:2}
+
+    let companies = await Company.findMinMaxEmployees(data);
+    expect(companies).toEqual([
+
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+
+    ]);
+
+  })
+
+  test("works: finds c3 with 3 and 3", async function () {
+
+    const data = {minEmployees:3, maxEmployees:3}
+
+    let companies = await Company.findMinMaxEmployees(data);
+    expect(companies).toEqual([
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+    
+  })
+
+})
 
 /************************************** get */
 
