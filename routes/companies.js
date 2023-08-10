@@ -71,37 +71,89 @@ router.get("/", async function (req, res, next) {
 
     console.log(req.query)
 
-    return res.json({message:"Name Only Search"})
+    console.log({message:"Name Only Search"})
+
+    try {
+      const companies = await Company.findNameLikeOnly(req.query);
+      return res.json({ companies });
+    } catch (err) {
+      return next(err);
+    }
 
   }
 
   if (!req.query.nameLike && !req.query.minEmployees) {
 
-    return res.json({message:"Max Only Search"})
+    console.log(req.query)
+
+    console.log({message:"Max Only Search"})
+
+    try {
+      const companies = await Company.findMaxEmployeesOnly(req.query);
+      return res.json({ companies });
+    } catch (err) {
+      return next(err);
+    }
 
   }
 
   if (!req.query.nameLike && !req.query.maxEmployees) {
 
-    return res.json({message:"Min Only Search"})
+    console.log(req.query)
+
+    console.log({message:"Min Only Search"})
+
+    try {
+      const companies = await Company.findMinEmployeesOnly(req.query);
+      return res.json({ companies });
+    } catch (err) {
+      return next(err);
+    }
 
   } 
   
   if (req.query.nameLike && !req.query.maxEmployees) {
 
-    return res.json({message:"Name + Min Search"})
+    console.log(req.query)
+
+    console.log({message:"Name + Min Search"})
+
+    try {
+      const companies = await Company.findNameLikeMinEmployees(req.query);
+      return res.json({ companies });
+    } catch (err) {
+      return next(err);
+    }
 
   }
   
   if (req.query.nameLike && !req.query.minEmployees) {
 
-    return res.json({message:"Name + Max Search"})
+    console.log(req.query)
+
+    console.log({message:"Name + Max Search"})
+
+    try {
+      const companies = await Company.findNameLikeMaxEmployees(req.query);
+      return res.json({ companies });
+    } catch (err) {
+      return next(err);
+    }
 
   }
 
   if (!req.query.nameLike) {
 
-    return res.json({message: "Min + Max Search"})
+    console.log(req.query)
+
+    console.log({message: "Min + Max Search"})
+
+    try {
+      const companies = await Company.findMinMaxEmployees(req.query);
+      return res.json({ companies });
+    } catch (err) {
+      return next(err);
+    }
 
   } else {
 
