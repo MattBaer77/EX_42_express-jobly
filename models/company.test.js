@@ -87,6 +87,166 @@ describe("findAll", function () {
   });
 });
 
+
+/************************************** findAllFilter */
+
+describe("findAllFilter", function () {
+
+  test("works: all filters - all data", async function () {
+
+    const data = {nameLike:"c", minEmployees:"1", maxEmployees:"3"}
+
+    let companies = await Company.findAllFilter(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+
+  });
+
+  test("works: all filters - min excludes c1", async function () {
+
+    const data = {nameLike:"c", minEmployees:"2", maxEmployees:"3"}
+
+    let companies = await Company.findAllFilter(data);
+    expect(companies).toEqual([
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+
+  });
+
+  test("works: all filters - min excludes c1 and c2", async function () {
+
+    const data = {nameLike:"c", minEmployees:"3", maxEmployees:"3"}
+
+    let companies = await Company.findAllFilter(data);
+    expect(companies).toEqual([
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+
+  });
+
+  test("works: all filters - max excludes c3", async function () {
+
+    const data = {nameLike:"c", minEmployees:"1", maxEmployees:"2"}
+
+    let companies = await Company.findAllFilter(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      }
+    ]);
+
+  });
+
+  test("works: all filters - max excludes c2 and c3", async function () {
+
+    const data = {nameLike:"c", minEmployees:"1", maxEmployees:"1"}
+
+    let companies = await Company.findAllFilter(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      }
+    ]);
+
+  });
+
+  test("works: all filters - no min/max exclusion - nameLike returns only C1", async function () {
+
+    const data = {nameLike:"c1", minEmployees:"1", maxEmployees:"3"}
+
+    let companies = await Company.findAllFilter(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      }
+    ]);
+
+  });
+
+  test("works: all filters - no min/max exclusion - nameLike returns no results", async function () {
+
+    const data = {nameLike:"b", minEmployees:"1", maxEmployees:"3"}
+
+    let companies = await Company.findAllFilter(data);
+
+    expect(companies).toEqual([]);
+
+  });
+
+})
+
+/************************************** findNameLikeOnly */
+
+/************************************** findMaxEmployeesOnly */
+
+/************************************** findMinEmployeesOnly */
+
+/************************************** findNameLikeMinEmployees */
+
+/************************************** findNameLikeMaxEmployees */
+
+/************************************** findMinMaxEmployees */
+
+
 /************************************** get */
 
 describe("get", function () {
