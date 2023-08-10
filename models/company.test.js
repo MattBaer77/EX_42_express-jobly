@@ -316,7 +316,211 @@ describe("findNameLikeOnly", function () {
 
 /************************************** findMaxEmployeesOnly */
 
+describe("findMaxEmployeesOnly", function () {
+
+  test("works: finds all with 3", async function () {
+
+    const data = {maxEmployees:3}
+
+    let companies = await Company.findMaxEmployeesOnly(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+    
+  })
+
+  test("works: finds c1 and c2 with 2", async function () {
+
+        const data = {maxEmployees:2}
+
+    let companies = await Company.findMaxEmployeesOnly(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+
+    ]);
+
+  })
+
+  test("works: finds c1 with 1", async function () {
+
+        const data = {maxEmployees:1}
+
+    let companies = await Company.findMaxEmployeesOnly(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+    ]);
+
+  })
+
+  test("works: finds nothing with 0", async function () {
+
+        const data = {maxEmployees:0}
+
+    let companies = await Company.findMaxEmployeesOnly(data);
+    expect(companies).toEqual([
+
+    ]);
+
+  })
+
+})
+
 /************************************** findMinEmployeesOnly */
+
+describe("findMinEmployeesOnly", function () {
+
+  test("works: finds all with 3 with 0", async function () {
+
+    const data = {minEmployees:0}
+
+    let companies = await Company.findMinEmployeesOnly(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+    
+  })
+
+  test("works: finds all with 3 with 1", async function () {
+
+    const data = {minEmployees:1}
+
+    let companies = await Company.findMinEmployeesOnly(data);
+    expect(companies).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+    
+  })
+
+})
+
+  test("works: finds c2 and c3 with 2", async function () {
+
+        const data = {minEmployees:2}
+
+    let companies = await Company.findMinEmployeesOnly(data);
+    expect(companies).toEqual([
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+
+  });
+
+  test("works: finds c3 with 3", async function () {
+
+        const data = {minEmployees:3}
+
+    let companies = await Company.findMinEmployeesOnly(data);
+    expect(companies).toEqual([
+      {
+        handle: "c3",
+        name: "C3",
+        description: "Desc3",
+        numEmployees: 3,
+        logoUrl: "http://c3.img",
+      },
+    ]);
+
+  });
+
+  test("works: finds nothing with 4", async function () {
+
+        const data = {minEmployees:4}
+
+    let companies = await Company.findMinEmployeesOnly(data);
+    expect(companies).toEqual([]);
+
+  });
 
 /************************************** findNameLikeMinEmployees */
 
