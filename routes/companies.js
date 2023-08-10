@@ -105,7 +105,16 @@ router.get("/", async function (req, res, next) {
 
   } else {
 
-    return res.json({message:"Name + Min + Max Search"})
+    console.log(req.query)
+
+    console.log({message:"Name + Min + Max Search"})
+
+    try {
+      const companies = await Company.findAllFilter(req.query);
+      return res.json({ companies });
+    } catch (err) {
+      return next(err);
+    }
 
   }
 

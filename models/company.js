@@ -68,17 +68,33 @@ class Company {
    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
    * */
 
-  // static async findAll() {
-  //   const companiesRes = await db.query(
-  //         `SELECT handle,
-  //                 name,
-  //                 description,
-  //                 num_employees AS "numEmployees",
-  //                 logo_url AS "logoUrl"
-  //          FROM companies
-  //          ORDER BY name`);
-  //   return companiesRes.rows;
-  // }
+  static async findAllFilter(data) {
+
+    console.log(data)
+
+    const {nameLike, minEmployees, maxEmployees} = data
+
+    const nameLikeWildcard = "%"+nameLike+"%"
+
+    console.log(nameLike)
+    console.log(nameLikeWildcard)
+    console.log(minEmployees)
+    console.log(maxEmployees)
+
+    const companiesRes = await db.query(
+            `SELECT handle,
+                    name,
+                    description,
+                    num_employees AS "numEmployees",
+                    logo_url AS "logoUrl"
+            FROM companies
+            WHERE LOWER(name) LIKE $1
+            AND num_employees > $2
+            AND num_employees < $3
+            ORDER BY name;`,
+            [nameLikeWildcard, minEmployees, maxEmployees]);
+    return companiesRes.rows;
+  }
 
 
   /** Find filter nameLike ONLY.
