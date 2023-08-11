@@ -11,6 +11,7 @@ const {
   commonAfterEach,
   commonAfterAll,
   u1Token,
+  adminToken,
 } = require("./_testCommon");
 
 beforeAll(commonBeforeAll);
@@ -29,18 +30,54 @@ describe("POST /companies", function () {
     numEmployees: 10,
   };
 
-  test("ok for users", async function () {
+  // ADMIN
+
+  test("ok for users - ADMIN", async function () {
     const resp = await request(app)
         .post("/companies")
         .send(newCompany)
-        .set("authorization", `Bearer ${u1Token}`);
+        .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(201);
     expect(resp.body).toEqual({
       company: newCompany,
     });
   });
+  
+  test("bad request with missing data - ADMIN", async function () {
+    const resp = await request(app)
+        .post("/companies")
+        .send({
+          handle: "new",
+          numEmployees: 10,
+        })
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(400);
+  });
 
-  test("bad request with missing data", async function () {
+  test("bad request with invalid data - ADMIN", async function () {
+    const resp = await request(app)
+        .post("/companies")
+        .send({
+          ...newCompany,
+          logoUrl: "not-a-url",
+        })
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(400);
+  });
+
+  // NOT ADMIN
+
+  test("FAIL for users - NOT ADMIN", async function () {
+
+    const resp = await request(app)
+        .post("/companies")
+        .send(newCompany)
+        .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401);
+
+  });
+
+  test("bad request with missing data - NOT ADMIN", async function () {
     const resp = await request(app)
         .post("/companies")
         .send({
@@ -48,10 +85,10 @@ describe("POST /companies", function () {
           numEmployees: 10,
         })
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(400);
+    expect(resp.statusCode).toEqual(401);
   });
 
-  test("bad request with invalid data", async function () {
+  test("bad request with invalid data - NOT ADMIN", async function () {
     const resp = await request(app)
         .post("/companies")
         .send({
@@ -59,7 +96,7 @@ describe("POST /companies", function () {
           logoUrl: "not-a-url",
         })
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(400);
+    expect(resp.statusCode).toEqual(401);
   });
 });
 
