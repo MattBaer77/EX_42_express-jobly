@@ -11,3 +11,21 @@ ALL FILTERS -
     AND num_employees > 700
     AND num_employees < 10000
     ORDER BY name;`
+
+
+JOBS -
+
+INSERT INTO jobs
+    (title, salary, equity, company_handle)
+    VALUES('Colored Pencil Sharpener', 1000000, 0.05, 'watson-davis')
+    RETURNING id, title, salary, equity, company_handle AS "companyHandle";
+
+###
+
+SELECT id,
+        title,
+        salary,
+        equity,
+        company_handle AS "companyHandle"
+    FROM jobs
+    ORDER BY id;
