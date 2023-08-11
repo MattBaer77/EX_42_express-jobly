@@ -235,7 +235,7 @@ describe("GET /users", function () {
 
   // NOT ADMIN
 
-  test("error for users - NOT ADMIN", async function () {
+  test("fails for users - NOT ADMIN", async function () {
     const resp = await request(app)
         .get("/users")
         .set("authorization", `Bearer ${u1Token}`);
@@ -310,14 +310,14 @@ describe("GET /users/:username", function () {
 
   // NOT ADMIN NOT USER
 
-  test("works for users - NOT ADMIN NOT USER", async function () {
+  test("unauth for users - NOT ADMIN NOT USER", async function () {
     const resp = await request(app)
         .get(`/users/u2`)
         .set("authorization", `Bearer ${u1Token}`);
     expect(resp.statusCode).toEqual(401)
   });
 
-  test("not found if user not found - NOT ADMIN NOT USER", async function () {
+  test("unauth - not found if user not found - NOT ADMIN NOT USER", async function () {
     const resp = await request(app)
         .get(`/users/nope`)
         .set("authorization", `Bearer ${u1Token}`);
@@ -344,7 +344,7 @@ describe("PATCH /users/:username", () => {
 
   // ADMIN
 
-  test("works for users", async function () {
+  test("works for users - ADMIN", async function () {
     const resp = await request(app)
         .patch(`/users/u2`)
         .send({
@@ -362,7 +362,7 @@ describe("PATCH /users/:username", () => {
     });
   });
 
-  test("not found if no such user", async function () {
+  test("not found if no such user - ADMIN", async function () {
     const resp = await request(app)
         .patch(`/users/nope`)
         .send({
@@ -372,7 +372,7 @@ describe("PATCH /users/:username", () => {
     expect(resp.statusCode).toEqual(404);
   });
 
-  test("bad request if invalid data", async function () {
+  test("bad request if invalid data - ADMIN", async function () {
     const resp = await request(app)
         .patch(`/users/u2`)
         .send({
@@ -382,7 +382,7 @@ describe("PATCH /users/:username", () => {
     expect(resp.statusCode).toEqual(400);
   });
 
-  test("works: set new password", async function () {
+  test("works: set new password - ADMIN", async function () {
     const resp = await request(app)
         .patch(`/users/u2`)
         .send({
@@ -404,7 +404,7 @@ describe("PATCH /users/:username", () => {
 
   // NOT ADMIN IS USER
 
-  test("works for users", async function () {
+  test("works for users - NOT ADMIN IS USER", async function () {
     const resp = await request(app)
         .patch(`/users/u1`)
         .send({
@@ -422,7 +422,7 @@ describe("PATCH /users/:username", () => {
     });
   });
 
-  test("bad request if invalid data", async function () {
+  test("bad request if invalid data - NOT ADMIN IS USER", async function () {
     const resp = await request(app)
         .patch(`/users/u1`)
         .send({
@@ -432,7 +432,7 @@ describe("PATCH /users/:username", () => {
     expect(resp.statusCode).toEqual(400);
   });
 
-  test("works: set new password", async function () {
+  test("works: set new password  - NOT ADMIN IS USER", async function () {
     const resp = await request(app)
         .patch(`/users/u1`)
         .send({
@@ -454,7 +454,7 @@ describe("PATCH /users/:username", () => {
 
   // NOT ADMIN NOT USER
 
-  test("works for users", async function () {
+  test("unauth for users - NOT ADMIN NOT USER", async function () {
     const resp = await request(app)
         .patch(`/users/u2`)
         .send({
@@ -464,7 +464,7 @@ describe("PATCH /users/:username", () => {
     expect(resp.statusCode).toEqual(401)
   });
 
-  test("not found if no such user", async function () {
+  test("unauth not found if no such user - NOT ADMIN NOT USER", async function () {
     const resp = await request(app)
         .patch(`/users/nope`)
         .send({
@@ -474,7 +474,7 @@ describe("PATCH /users/:username", () => {
     expect(resp.statusCode).toEqual(401);
   });
 
-  test("bad request if invalid data", async function () {
+  test("unauth if invalid data - NOT ADMIN NOT USER", async function () {
     const resp = await request(app)
         .patch(`/users/u2`)
         .send({
@@ -484,7 +484,7 @@ describe("PATCH /users/:username", () => {
     expect(resp.statusCode).toEqual(401);
   });
 
-  test("works: set new password", async function () {
+  test("unauth: set new password - NOT ADMIN NOT USER", async function () {
     const resp = await request(app)
         .patch(`/users/u2`)
         .send({
@@ -510,7 +510,7 @@ describe("DELETE /users/:username", function () {
 
   // ADMIN
 
-  test("works for users", async function () {
+  test("works for users - ADMIN", async function () {
     const resp = await request(app)
         .delete(`/users/u1`)
         .set("authorization", `Bearer ${adminToken}`);
@@ -518,7 +518,7 @@ describe("DELETE /users/:username", function () {
   });
 
 
-  test("not found if user missing", async function () {
+  test("not found if user missing - ADMIN", async function () {
     const resp = await request(app)
         .delete(`/users/nope`)
         .set("authorization", `Bearer ${adminToken}`);
@@ -527,7 +527,7 @@ describe("DELETE /users/:username", function () {
 
   // NOT ADMIN IS USER
 
-  test("works for users", async function () {
+  test("works for users - NOT ADMIN IS USER", async function () {
     const resp = await request(app)
         .delete(`/users/u1`)
         .set("authorization", `Bearer ${u1Token}`);
@@ -536,14 +536,14 @@ describe("DELETE /users/:username", function () {
 
   // NOT ADMIN NOT USER
 
-  test("works for users", async function () {
+  test("unauth for users - NOT ADMIN NOT USER", async function () {
     const resp = await request(app)
         .delete(`/users/u2`)
         .set("authorization", `Bearer ${u1Token}`);
     expect(resp.statusCode).toEqual(401)
   });
 
-  test("not found if user missing", async function () {
+  test("unauth not found if user missing - NOT ADMIN NOT USER", async function () {
     const resp = await request(app)
         .delete(`/users/nope`)
         .set("authorization", `Bearer ${u1Token}`);
