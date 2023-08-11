@@ -258,7 +258,42 @@ describe("GET /users", function () {
 /************************************** GET /users/:username */
 
 describe("GET /users/:username", function () {
-  test("works for users", async function () {
+
+  // ANON
+
+  test("unauth for anon - ANON", async function () {
+    const resp = await request(app)
+        .get(`/users/u1`);
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  // ADMIN
+
+  test("works for users - ADMIN", async function () {
+    const resp = await request(app)
+        .get(`/users/u1`)
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.body).toEqual({
+      user: {
+        username: "u1",
+        firstName: "U1F",
+        lastName: "U1L",
+        email: "user1@user.com",
+        isAdmin: false,
+      },
+    });
+  });
+
+  test("not found if user not found - ADMIN", async function () {
+    const resp = await request(app)
+        .get(`/users/nope`)
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(404);
+  });
+
+  // NOT ADMIN IS USER
+
+  test("works for user - NOT ADMIN IS USER", async function () {
     const resp = await request(app)
         .get(`/users/u1`)
         .set("authorization", `Bearer ${u1Token}`);
@@ -273,18 +308,23 @@ describe("GET /users/:username", function () {
     });
   });
 
-  test("unauth for anon", async function () {
+  // NOT ADMIN NOT USER
+
+  test("works for users - NOT ADMIN NOT USER", async function () {
     const resp = await request(app)
-        .get(`/users/u1`);
-    expect(resp.statusCode).toEqual(401);
+        .get(`/users/u2`)
+        .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401)
   });
 
-  test("not found if user not found", async function () {
+  test("not found if user not found - NOT ADMIN NOT USER", async function () {
     const resp = await request(app)
         .get(`/users/nope`)
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(404);
+    expect(resp.statusCode).toEqual(401);
   });
+
+
 });
 
 /************************************** PATCH /users/:username */
