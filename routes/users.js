@@ -88,7 +88,7 @@ router.get("/:username", ensureAdminOrCorrectUser, async function (req, res, nex
  * Authorization required: login
  **/
 
-router.patch("/:username", ensureLoggedIn, async function (req, res, next) {
+router.patch("/:username", ensureAdminOrCorrectUser, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, userUpdateSchema);
     if (!validator.valid) {
