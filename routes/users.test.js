@@ -180,10 +180,21 @@ describe("POST /users", function () {
 /************************************** GET /users */
 
 describe("GET /users", function () {
-  test("works for users", async function () {
+
+  // ANON
+
+  test("unauth for anon", async function () {
+    const resp = await request(app)
+        .get("/users");
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  // ADMIN
+
+  test("works for users - ADMIN", async function () {
     const resp = await request(app)
         .get("/users")
-        .set("authorization", `Bearer ${u1Token}`);
+        .set("authorization", `Bearer ${adminToken}`);
     expect(resp.body).toEqual({
       users: [
         {
@@ -211,10 +222,24 @@ describe("GET /users", function () {
     });
   });
 
-  test("unauth for anon", async function () {
+  test("fails: test next() handler", async function () {
+    // there's no normal failure event which will cause this route to fail ---
+    // thus making it hard to test that the error-handler works with it. This
+    // should cause an error, all right :)
+    await db.query("DROP TABLE users CASCADE");
     const resp = await request(app)
-        .get("/users");
-    expect(resp.statusCode).toEqual(401);
+        .get("/users")
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(500);
+  });
+
+  // NOT ADMIN
+
+  test("error for users - NOT ADMIN", async function () {
+    const resp = await request(app)
+        .get("/users")
+        .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401)
   });
 
   test("fails: test next() handler", async function () {
@@ -225,8 +250,9 @@ describe("GET /users", function () {
     const resp = await request(app)
         .get("/users")
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(500);
+    expect(resp.statusCode).toEqual(401);
   });
+
 });
 
 /************************************** GET /users/:username */
