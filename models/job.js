@@ -102,254 +102,33 @@ class Job {
     return filterJobsRes.rows
 
   }
-
-
-
-
-
-
-
-
-//   // 
-
-//   /** Finds companies filtered by nameLike + minEmployees + maxEmployees.
-//    *
-//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
-//    * */
-
-//   static async findAllFilter(data) {
-
-//     console.log(data)
-
-//     const {nameLike, minEmployees, maxEmployees} = data
-
-//     const nameLikeWildcard = "%"+nameLike+"%"
-
-//     console.log(nameLike)
-//     console.log(nameLikeWildcard)
-//     console.log(minEmployees)
-//     console.log(maxEmployees)
-
-//     const companiesRes = await db.query(
-//             `SELECT handle,
-//                     name,
-//                     description,
-//                     num_employees AS "numEmployees",
-//                     logo_url AS "logoUrl"
-//             FROM companies
-//             WHERE LOWER(name) LIKE $1
-//             AND num_employees >= $2
-//             AND num_employees <= $3
-//             ORDER BY name;`,
-//             [nameLikeWildcard, minEmployees, maxEmployees]);
-//     return companiesRes.rows;
-//   }
-
-
-//   /** Finds companies filtered by nameLike ONLY.
-//    *
-//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
-//    * */
-
-//   static async findNameLikeOnly(data) {
-
-//     console.log(data)
-
-//     const {nameLike} = data
-
-//     const nameLikeWildcard = "%"+nameLike+"%"
-
-//     console.log(nameLike)
-//     console.log(nameLikeWildcard)
-
-//     const companiesRes = await db.query(
-//             `SELECT handle,
-//                     name,
-//                     description,
-//                     num_employees AS "numEmployees",
-//                     logo_url AS "logoUrl"
-//             FROM companies
-//             WHERE LOWER(name) LIKE $1
-//             ORDER BY name;`,
-//             [nameLikeWildcard]);
-//     return companiesRes.rows;
-//   }
-
-
-//   /** Finds companies filtered by maxEmployees ONLY.
-//    *
-//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
-//    * */
-
-//   static async findMaxEmployeesOnly(data) {
-
-//     console.log(data)
-
-//     const {maxEmployees} = data
-
-//     console.log(maxEmployees)
-
-//     const companiesRes = await db.query(
-//             `SELECT handle,
-//                     name,
-//                     description,
-//                     num_employees AS "numEmployees",
-//                     logo_url AS "logoUrl"
-//             FROM companies
-//             WHERE num_employees <= $1
-//             ORDER BY name;`,
-//             [maxEmployees]);
-//     return companiesRes.rows;
-//   }
-
-
-//   /** Finds companies filtered by minEmployees ONLY.
-//    *
-//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
-//    * */
-
-//   static async findMinEmployeesOnly(data) {
-
-//     console.log(data)
-
-//     const {minEmployees} = data
-
-//     console.log(minEmployees)
-
-//     const companiesRes = await db.query(
-//             `SELECT handle,
-//                     name,
-//                     description,
-//                     num_employees AS "numEmployees",
-//                     logo_url AS "logoUrl"
-//             FROM companies
-//             WHERE num_employees >= $1
-//             ORDER BY name;`,
-//             [minEmployees]);
-//     return companiesRes.rows;
-//   }
-
-
-//   /** Finds companies filtered by nameLike + minEmployees.
-//    *
-//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
-//    * */
-
-//   static async findNameLikeMinEmployees(data) {
-
-//     console.log(data)
-
-//     const {nameLike, minEmployees} = data
-
-//     const nameLikeWildcard = "%"+nameLike+"%"
-
-//     console.log(nameLike)
-//     console.log(nameLikeWildcard)
-//     console.log(minEmployees)
-
-//     const companiesRes = await db.query(
-//             `SELECT handle,
-//                     name,
-//                     description,
-//                     num_employees AS "numEmployees",
-//                     logo_url AS "logoUrl"
-//             FROM companies
-//             WHERE LOWER(name) LIKE $1
-//             AND num_employees >= $2
-//             ORDER BY name;`,
-//             [nameLikeWildcard, minEmployees]);
-//     return companiesRes.rows;
-//   }
-
-
-//   /** Finds companies filtered by nameLike + maxEmployees.
-//    *
-//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
-//    * */
-
-//   static async findNameLikeMaxEmployees(data) {
-
-//     console.log(data)
-
-//     const {nameLike, maxEmployees} = data
-
-//     const nameLikeWildcard = "%"+nameLike+"%"
-
-//     console.log(nameLike)
-//     console.log(nameLikeWildcard)
-//     console.log(maxEmployees)
-
-//     const companiesRes = await db.query(
-//             `SELECT handle,
-//                     name,
-//                     description,
-//                     num_employees AS "numEmployees",
-//                     logo_url AS "logoUrl"
-//             FROM companies
-//             WHERE LOWER(name) LIKE $1
-//             AND num_employees <= $2
-//             ORDER BY name;`,
-//             [nameLikeWildcard, maxEmployees]);
-//     return companiesRes.rows;
-//   }
-
-
-//   /** Finds companies filtered by minEmployees + maxEmployees.
-//    *
-//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
-//    * */
-
-//   static async findMinMaxEmployees(data) {
-
-//     console.log(data)
-
-//     const {minEmployees, maxEmployees} = data
-
-//     console.log(minEmployees)
-//     console.log(maxEmployees)
-
-//     const companiesRes = await db.query(
-//             `SELECT handle,
-//                     name,
-//                     description,
-//                     num_employees AS "numEmployees",
-//                     logo_url AS "logoUrl"
-//             FROM companies
-//             WHERE num_employees >= $1
-//             AND num_employees <= $2
-//             ORDER BY name;`,
-//             [minEmployees, maxEmployees]);
-//     return companiesRes.rows;
-//   }
   
-
 //   // 
 
-//   /** Given a company handle, return data about company.
+//   /** Given a job id, return data about job.
 //    *
-//    * Returns { handle, name, description, numEmployees, logoUrl, jobs }
-//    *   where jobs is [{ id, title, salary, equity, companyHandle }, ...]
+//    * Returns { title, salary, equity, company_handle }
 //    *
 //    * Throws NotFoundError if not found.
 //    **/
 
-//   static async get(handle) {
-//     const companyRes = await db.query(
-//           `SELECT handle,
-//                   name,
-//                   description,
-//                   num_employees AS "numEmployees",
-//                   logo_url AS "logoUrl"
-//            FROM companies
-//            WHERE handle = $1`,
-//         [handle]);
+  // static async get(handle) {
+  //   const jobRes = await db.query(
+  //         `SELECT handle,
+  //                 name,
+  //                 description,
+  //                 num_employees AS "numEmployees",
+  //                 logo_url AS "logoUrl"
+  //          FROM companies
+  //          WHERE handle = $1`,
+  //       [handle]);
 
-//     const company = companyRes.rows[0];
+  //   const company = companyRes.rows[0];
 
-//     if (!company) throw new NotFoundError(`No company: ${handle}`);
+  //   if (!company) throw new NotFoundError(`No company: ${handle}`);
 
-//     return company;
-//   }
+  //   return company;
+  // }
 
 //   /** Update company data with `data`.
 //    *
