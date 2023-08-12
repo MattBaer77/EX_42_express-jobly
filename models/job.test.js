@@ -150,7 +150,6 @@ describe("findAll", function () {
 
 describe("findFilter", function () {
 
-
     test("filter works - TITLE", async function() {
 
         let filterData = {
@@ -161,17 +160,18 @@ describe("findFilter", function () {
 
         expect(filteredJob).toEqual([
             {
-                "companyHandle": "c1",
-                "equity": "0.1", "id": 1,
-                "salary": 1,
-                "title": "seed c1 job1"
-            }, 
+                id: 1,
+                title: "seed c1 job1",
+                salary: 1,
+                equity: '0.1',
+                companyHandle: 'c1'
+            },
             {
-                "companyHandle": "c1",
-                "equity": "0.2",
-                "id": 2,
-                "salary": 2,
-                "title": "seed c1 job2"
+                id: 2,
+                title: "seed c1 job2",
+                salary: 2,
+                equity: '0.2',
+                companyHandle: 'c1'
             }
         ])
 
@@ -242,9 +242,86 @@ describe("findFilter", function () {
                 companyHandle: 'c2'
             }
         ])
-        
+
     })
 
+    test("filter works - TITLE + SALARY", async function() {
 
-    
+        let filterData = {
+            title: 'c1',
+            salary: 2
+        }
+
+        let filteredJob = await Job.findFilter(filterData)
+
+        expect(filteredJob).toEqual([
+            
+            {
+                id: 2,
+                title: "seed c1 job2",
+                salary: 2,
+                equity: '0.2',
+                companyHandle: 'c1'
+            }
+
+        ])
+
+    })
+
+    test("filter works - TITLE + EQUITY", async function() {
+
+        let filterData = {
+            title: 'c3',
+            hasEquity: true
+        }
+
+        let filteredJob = await Job.findFilter(filterData)
+
+        expect(filteredJob).toEqual([])
+
+    })
+
+    test("filter works - SALARY + EQUITY", async function() {
+
+        let filterData = {
+            salary: 3,
+            hasEquity: true
+        }
+
+        let filteredJob = await Job.findFilter(filterData)
+
+        expect(filteredJob).toEqual([
+            {
+                id: 3,
+                title: 'seed c2 job',
+                salary: 3,
+                equity: '0.3',
+                companyHandle: 'c2'
+            }
+        ])
+
+    })
+
+    test("filter works - TITLE + SALARY + EQUITY", async function() {
+
+        let filterData = {
+            title: "c1",
+            salary: 2,
+            hasEquity: true
+        }
+
+        let filteredJob = await Job.findFilter(filterData)
+
+        expect(filteredJob).toEqual([
+            {
+                id: 2,
+                title: "seed c1 job2",
+                salary: 2,
+                equity: '0.2',
+                companyHandle: 'c1'
+            },
+        ])
+
+    })
+ 
 });
