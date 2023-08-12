@@ -58,38 +58,50 @@ class Job {
 
 //   // 
 
-//   /** Finds companies filtered by nameLike + minEmployees + maxEmployees.
+//   /** Finds jobs filtered by title, minSalary, hasEquity and any combination of the 3.
 //    *
-//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
+//    * Returns [{ title, salary, equity, company_handle }, ...]
 //    * */
 
-//   static async findAllFilter(data) {
+  static async findFilter(data) {
 
-//     console.log(data)
+    console.log(data)
 
-//     const {nameLike, minEmployees, maxEmployees} = data
+    let filterSQL = '';
 
-//     const nameLikeWildcard = "%"+nameLike+"%"
+    if (data.title) {
+      console.log('Title Included')
+      filterSQL += ` AND LOWER(title) LIKE '%${data.title}%'`
+    }
 
-//     console.log(nameLike)
-//     console.log(nameLikeWildcard)
-//     console.log(minEmployees)
-//     console.log(maxEmployees)
+    if (data.salary) {
+      console.log('Salary included')
+      filterSQL += ` AND salary >= ${data.salary}`
+    }
 
-//     const companiesRes = await db.query(
-//             `SELECT handle,
-//                     name,
-//                     description,
-//                     num_employees AS "numEmployees",
-//                     logo_url AS "logoUrl"
-//             FROM companies
-//             WHERE LOWER(name) LIKE $1
-//             AND num_employees >= $2
-//             AND num_employees <= $3
-//             ORDER BY name;`,
-//             [nameLikeWildcard, minEmployees, maxEmployees]);
-//     return companiesRes.rows;
-//   }
+    if (data.hasEquity) {
+      console.log('Equity included')
+      filterSQL += ` AND equity > 0`
+    }
+
+    const reformatFilterSQL = filterSQL.slice(5)
+
+    console.log(reformatFilterSQL)
+
+    const filterJobsRes = await db.query(
+      `SELECT id,
+              title,
+              salary,
+              equity,
+              company_handle AS "companyHandle"
+              FROM jobs
+              WHERE ${reformatFilterSQL}
+              ORDER BY id;`
+    )
+
+    return filterJobsRes.rows
+
+  }
 
 
 
