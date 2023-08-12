@@ -355,76 +355,77 @@ describe("get", function () {
 
 /************************************** update */
 
-// describe("update", function () {
-//     const updateData = {
-//       name: "New",
-//       description: "New Description",
-//       numEmployees: 10,
-//       logoUrl: "http://new.img",
-//     };
+describe("update", function () {
+    const updateData = {
+        title: "updated c1",
+        salary: 10,
+        equity: '0.5',
+        companyHandle: 'c1'
+    };
   
-//     test("works", async function () {
-//       let company = await Company.update("c1", updateData);
-//       expect(company).toEqual({
-//         handle: "c1",
-//         ...updateData,
-//       });
+    test("works", async function () {
+      let job = await Job.update(1, updateData);
+      expect(job).toEqual({
+        id: 1,
+        ...updateData,
+      });
   
-//       const result = await db.query(
-//             `SELECT handle, name, description, num_employees, logo_url
-//              FROM companies
-//              WHERE handle = 'c1'`);
-//       expect(result.rows).toEqual([{
-//         handle: "c1",
-//         name: "New",
-//         description: "New Description",
-//         num_employees: 10,
-//         logo_url: "http://new.img",
-//       }]);
-//     });
+      const result = await db.query(
+            `SELECT id, title, salary, equity, company_handle
+             FROM jobs
+             WHERE id = 1`);
+      expect(result.rows).toEqual([{
+        id: 1,
+        title: "updated c1",
+        salary: 10,
+        equity: '0.5',
+        company_handle: 'c1'
+      }]);
+    });
   
-//     test("works: null fields", async function () {
-//       const updateDataSetNulls = {
-//         name: "New",
-//         description: "New Description",
-//         numEmployees: null,
-//         logoUrl: null,
-//       };
+    test("works: null fields", async function () {
+      const updateDataSetNulls = {
+        title: "updated c1",
+        salary: null,
+        equity: null,
+        companyHandle: 'c1'
+      };
   
-//       let company = await Company.update("c1", updateDataSetNulls);
-//       expect(company).toEqual({
-//         handle: "c1",
-//         ...updateDataSetNulls,
-//       });
+      let job = await Job.update(1, updateDataSetNulls);
+      expect(job).toEqual({
+        id: 1,
+        ...updateDataSetNulls,
+      });
   
-//       const result = await db.query(
-//             `SELECT handle, name, description, num_employees, logo_url
-//              FROM companies
-//              WHERE handle = 'c1'`);
-//       expect(result.rows).toEqual([{
-//         handle: "c1",
-//         name: "New",
-//         description: "New Description",
-//         num_employees: null,
-//         logo_url: null,
-//       }]);
-//     });
+      const result = await db.query(
+            `SELECT id, title, salary, equity, company_handle
+             FROM jobs
+             WHERE id = 1`);
+      expect(result.rows).toEqual([{
+        id: 1,
+        title: "updated c1",
+        salary: null,
+        equity: null,
+        company_handle: 'c1'
+      }]);
+
+    });
   
-//     test("not found if no such company", async function () {
-//       try {
-//         await Company.update("nope", updateData);
-//         fail();
-//       } catch (err) {
-//         expect(err instanceof NotFoundError).toBeTruthy();
-//       }
-//     });
+    test("not found if no such job", async function () {
+      try {
+        await Job.update(0, updateData);
+        fail();
+      } catch (err) {
+        expect(err instanceof NotFoundError).toBeTruthy();
+      }
+    });
   
-//     test("bad request with no data", async function () {
-//       try {
-//         await Company.update("c1", {});
-//         fail();
-//       } catch (err) {
-//         expect(err instanceof BadRequestError).toBeTruthy();
-//       }
-//     });
-//   });
+    test("bad request with no data", async function () {
+      try {
+        await Job.update(1, {});
+        fail();
+      } catch (err) {
+        expect(err instanceof BadRequestError).toBeTruthy();
+      }
+    });
+  });

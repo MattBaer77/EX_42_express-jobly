@@ -149,18 +149,27 @@ class Job {
         {
           companyHandle: "company_handle",
         });
+
+    console.log(data)
+    console.log(setCols)
+    console.log(values)
+    
     const handleVarIdx = "$" + (values.length + 1);
 
-    const querySql = `UPDATE job 
+    console.log(handleVarIdx)
+
+    const querySql = `UPDATE jobs
                       SET ${setCols} 
                       WHERE id = ${handleVarIdx} 
                       RETURNING id, 
                                 title, 
                                 salary, 
-                                equity", 
+                                equity, 
                                 company_handle AS "companyHandle"`;
     const result = await db.query(querySql, [...values, id]);
     const job = result.rows[0];
+
+    console.log(job)
 
     if (!job) throw new NotFoundError(`No company: ${id}`);
 
