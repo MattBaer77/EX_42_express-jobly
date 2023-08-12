@@ -53,6 +53,51 @@ class Job {
     return jobsRes.rows;
   }
 
+// FILTERS FOR
+// TITLE, minSalary, hasEquity
+
+//   // 
+
+//   /** Finds companies filtered by nameLike + minEmployees + maxEmployees.
+//    *
+//    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
+//    * */
+
+//   static async findAllFilter(data) {
+
+//     console.log(data)
+
+//     const {nameLike, minEmployees, maxEmployees} = data
+
+//     const nameLikeWildcard = "%"+nameLike+"%"
+
+//     console.log(nameLike)
+//     console.log(nameLikeWildcard)
+//     console.log(minEmployees)
+//     console.log(maxEmployees)
+
+//     const companiesRes = await db.query(
+//             `SELECT handle,
+//                     name,
+//                     description,
+//                     num_employees AS "numEmployees",
+//                     logo_url AS "logoUrl"
+//             FROM companies
+//             WHERE LOWER(name) LIKE $1
+//             AND num_employees >= $2
+//             AND num_employees <= $3
+//             ORDER BY name;`,
+//             [nameLikeWildcard, minEmployees, maxEmployees]);
+//     return companiesRes.rows;
+//   }
+
+
+
+
+
+
+
+
 //   // 
 
 //   /** Finds companies filtered by nameLike + minEmployees + maxEmployees.
