@@ -68,15 +68,21 @@ class Job {
     console.log(data)
 
     let filterSQL = '';
+    let filterParams = []
+    let idx = 1
 
     if (data.title) {
       console.log('Title Included')
-      filterSQL += ` AND LOWER(title) LIKE '%${data.title}%'`
+      filterSQL += ` AND LOWER(title) LIKE $${idx}`
+      idx += 1
+      const titleWildcard = "%"+data.title+"%"
+      filterParams.push(titleWildcard)
     }
 
     if (data.salary) {
       console.log('Salary included')
-      filterSQL += ` AND salary >= ${data.salary}`
+      filterSQL += ` AND salary >= $${idx}`
+      filterParams.push(data.salary)
     }
 
     if (data.hasEquity) {
@@ -96,7 +102,8 @@ class Job {
               company_handle AS "companyHandle"
               FROM jobs
               WHERE ${reformatFilterSQL}
-              ORDER BY id;`
+              ORDER BY id;`,
+              filterParams
     )
 
     return filterJobsRes.rows
