@@ -444,13 +444,13 @@ describe("update", function () {
         title: "updated c1",
         salary: 10,
         equity: '0.5',
-        companyHandle: 'c1'
     };
   
     test("works", async function () {
       let job = await Job.update(1, updateData);
       expect(job).toEqual({
         id: 1,
+        companyHandle: 'c1',
         ...updateData,
       });
   
@@ -472,12 +472,12 @@ describe("update", function () {
         title: "updated c1",
         salary: null,
         equity: null,
-        companyHandle: 'c1'
       };
   
       let job = await Job.update(1, updateDataSetNulls);
       expect(job).toEqual({
         id: 1,
+        companyHandle: 'c1',
         ...updateDataSetNulls,
       });
   
@@ -512,6 +512,21 @@ describe("update", function () {
         expect(err instanceof BadRequestError).toBeTruthy();
       }
     });
+
+    test("does not update companyHandle", async function() {
+
+      try{
+        await Job.update(1, {
+          title: "updated c1",
+          salary: 10,
+          equity: '0.5',
+          companyHandle: "c2"
+        });
+        fail();
+      } catch (err) {
+        expect(err instanceof BadRequestError).toBeTruthy();
+      }
+    })
 });
 
 /************************************** remove */

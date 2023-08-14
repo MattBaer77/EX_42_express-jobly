@@ -145,7 +145,7 @@ class Job {
    * This is a "partial update" --- it's fine if data doesn't contain all the
    * fields; this only changes provided ones.
    *
-   * Data can include: {title, salary, equity, company_handle}
+   * Data can include: {title, salary, equity}
    *
    * Returns {id, title, salary, equity, company_handle}
    *
@@ -155,9 +155,9 @@ class Job {
   static async update(id, data) {
     const { setCols, values } = sqlForPartialUpdate(
         data,
-        {
-          companyHandle: "company_handle",
-        });
+        {});
+
+    if (data.companyHandle) throw new BadRequestError(`Cannot Change companyHandle to ${data.companyHandle} Remove companyHandle from request data.`)
 
     console.log(data)
     console.log(setCols)
