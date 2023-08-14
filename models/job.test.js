@@ -22,7 +22,7 @@ describe("create", function () {
       title: "c1 Job",
       salary: 1,
       equity: 0.1,
-      company_handle: 'c1',
+      companyHandle: 'c1',
     };
   
     test("works", async function () {
@@ -31,7 +31,9 @@ describe("create", function () {
         expect(job.title).toEqual(newJob.title);
         expect(job.salary).toEqual(newJob.salary);
         expect(parseFloat(job.equity)).toEqual(newJob.equity);
-        expect(job.companyHandle).toEqual(newJob.company_handle);
+        expect(job.companyHandle).toEqual(newJob.companyHandle);
+
+        console.log(`THE ID IS ${job.id}`)
 
         const result = await db.query(
             `SELECT id, title, salary, equity, company_handle
@@ -55,7 +57,7 @@ describe("create", function () {
         expect(job.title).toEqual(newJob.title);
         expect(job.salary).toEqual(newJob.salary);
         expect(parseFloat(job.equity)).toEqual(newJob.equity);
-        expect(job.companyHandle).toEqual(newJob.company_handle);
+        expect(job.companyHandle).toEqual(newJob.companyHandle);
 
         const result = await db.query(
                 `SELECT id, title, salary, equity, company_handle AS "companyHandle"
@@ -79,7 +81,7 @@ describe("create", function () {
         const newJobNoSalary = {
             title: "c1 Job",
             equity: 0.1,
-            company_handle: 'c1',
+            companyHandle: 'c1',
           };
 
         let job = await Job.create(newJobNoSalary);
@@ -87,7 +89,7 @@ describe("create", function () {
         expect(job.title).toEqual(newJobNoSalary.title);
         expect(job.salary).toEqual(null);
         expect(job.equity).toEqual(newJobNoSalary.equity.toString());
-        expect(job.companyHandle).toEqual(newJobNoSalary.company_handle);
+        expect(job.companyHandle).toEqual(newJobNoSalary.companyHandle);
 
         const result = await db.query(
                 `SELECT id, title, salary, equity, company_handle AS "companyHandle"
@@ -111,7 +113,7 @@ describe("create", function () {
         const newJobNoEquity = {
             title: "c1 Job",
             salary: 1,
-            company_handle: 'c1',
+            companyHandle: 'c1',
           };
 
         let job = await Job.create(newJobNoEquity);
@@ -119,7 +121,7 @@ describe("create", function () {
         expect(job.title).toEqual(newJobNoEquity.title);
         expect(job.salary).toEqual(newJobNoEquity.salary);
         expect(job.equity).toEqual(null);
-        expect(job.companyHandle).toEqual(newJobNoEquity.company_handle);
+        expect(job.companyHandle).toEqual(newJobNoEquity.companyHandle);
 
         const result = await db.query(
                 `SELECT id, title, salary, equity, company_handle AS "companyHandle"
@@ -142,7 +144,7 @@ describe("create", function () {
 
         const newJobNoSalaryAndNoEquity = {
             title: "c1 Job",
-            company_handle: 'c1',
+            companyHandle: 'c1',
           };
 
         let job = await Job.create(newJobNoSalaryAndNoEquity);
@@ -150,7 +152,7 @@ describe("create", function () {
         expect(job.title).toEqual(newJobNoSalaryAndNoEquity.title);
         expect(job.salary).toEqual(null);
         expect(job.equity).toEqual(null);
-        expect(job.companyHandle).toEqual(newJobNoSalaryAndNoEquity.company_handle);
+        expect(job.companyHandle).toEqual(newJobNoSalaryAndNoEquity.companyHandle);
 
         const result = await db.query(
                 `SELECT id, title, salary, equity, company_handle AS "companyHandle"
