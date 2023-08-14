@@ -52,7 +52,7 @@ router.post("/", ensureAdmin, async function (req, res, next) {
 
 router.get("/", async function (req, res, next) {
 
-  if (!req.query) {
+  if (!req.query.title && !req.query.minSalary && !req.query.hasEquity) {
 
     console.log(req.query)
     console.log({message:"Unfiltered Search"})

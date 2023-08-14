@@ -173,32 +173,39 @@ describe("POST /jobs", function () {
 
 // /************************************** GET /companies */
 
-// describe("GET /companies", function () {
+// describe("GET /jobs", function () {
 //   test("ok for anon", async function () {
-//     const resp = await request(app).get("/companies");
+//     const resp = await request(app).get("/jobs");
 //     expect(resp.body).toEqual({
-//       companies:
+//       jobs:
 //           [
 //             {
-//               handle: "c1",
-//               name: "C1",
-//               description: "Desc1",
-//               numEmployees: 1,
-//               logoUrl: "http://c1.img",
+//               id: 1,
+//               title: "seed c1 job1",
+//               salary: 1,
+//               equity: "0.1",
+//               companyHandle: 'c1',
 //             },
 //             {
-//               handle: "c2",
-//               name: "C2",
-//               description: "Desc2",
-//               numEmployees: 2,
-//               logoUrl: "http://c2.img",
+//               id: 2,
+//               title: "seed c1 job2",
+//               salary: 2,
+//               equity: "0.2",
+//               companyHandle: 'c1',
 //             },
 //             {
-//               handle: "c3",
-//               name: "C3",
-//               description: "Desc3",
-//               numEmployees: 3,
-//               logoUrl: "http://c3.img",
+//               id: 3,
+//               title: "seed c2 job",
+//               salary: 3,
+//               equity: "0.3",
+//               companyHandle: 'c2',
+//             },
+//             {
+//               id: 4,
+//               title: "seed c3 job NO EQUITY",
+//               salary: 4,
+//               equity: null,
+//               companyHandle: 'c3',
 //             },
 //           ],
 //     });
@@ -208,9 +215,9 @@ describe("POST /jobs", function () {
 //     // there's no normal failure event which will cause this route to fail ---
 //     // thus making it hard to test that the error-handler works with it. This
 //     // should cause an error, all right :)
-//     await db.query("DROP TABLE companies CASCADE");
+//     await db.query("DROP TABLE jobs CASCADE");
 //     const resp = await request(app)
-//         .get("/companies")
+//         .get("/jobs")
 //         .set("authorization", `Bearer ${u1Token}`);
 //     expect(resp.statusCode).toEqual(500);
 //   });
@@ -218,24 +225,24 @@ describe("POST /jobs", function () {
 
 // /************************************** GET /companies with filtering */
 
-// describe("GET /companies?filters", function () {
+describe("GET /companies?filters", function () {
 
-//   test("ok for anon - filter - Name + Min + - limited by minEmployees and maxEmployees", async function () {
-//     const resp = await request(app).get("/companies?nameLike=c&maxEmployees=2&minEmployees=2");
-//     expect(resp.body).toEqual(
-//       {companies:
-//         [
-//           {
-//             handle: "c2",
-//             name: "C2",
-//             description: "Desc2",
-//             numEmployees: 2,
-//             logoUrl: "http://c2.img",
-//           },
-//         ],
-//       }
-//     );
-//   });
+  test("ok for anon - filter - Title + minSalary + hasEquity - limited by minSalary and hasEquity", async function () {
+    const resp = await request(app).get("/jobs?title=seed&minSalary=3&hasEquity=true");
+    expect(resp.body).toEqual(
+      {jobs:
+        [
+          {
+            id: 3,
+            title: "seed c2 job",
+            salary: 3,
+            equity: '0.3',
+            companyHandle: 'c2',
+          },
+        ],
+      }
+    );
+  });
 
 //   test("ok for anon - filter - Name + Min + - limited by nameLike", async function () {
 //     const resp = await request(app).get("/companies?nameLike=c2&maxEmployees=3&minEmployees=0");
@@ -418,7 +425,7 @@ describe("POST /jobs", function () {
 //     );
 //   });
 
-// });
+});
 
 // /************************************** GET /companies/:handle */
 

@@ -83,10 +83,10 @@ class Job {
       filterParams.push(titleWildcard)
     }
 
-    if (data.salary) {
+    if (data.minSalary) {
       console.log('Salary included')
       filterSQL += ` AND salary >= $${idx}`
-      filterParams.push(data.salary)
+      filterParams.push(data.minSalary)
     }
 
     if (data.hasEquity) {

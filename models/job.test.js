@@ -265,7 +265,7 @@ describe("findFilter", function () {
     test("filter works - SALARY", async function() {
 
         let filterData = {
-            salary: 2
+            minSalary: 2
         }
 
         let filteredJob = await Job.findFilter(filterData)
@@ -334,7 +334,7 @@ describe("findFilter", function () {
 
         let filterData = {
             title: 'c1',
-            salary: 2
+            minSalary: 2
         }
 
         let filteredJob = await Job.findFilter(filterData)
@@ -369,7 +369,7 @@ describe("findFilter", function () {
     test("filter works - SALARY + EQUITY", async function() {
 
         let filterData = {
-            salary: 3,
+            minSalary: 3,
             hasEquity: true
         }
 
@@ -391,7 +391,7 @@ describe("findFilter", function () {
 
         let filterData = {
             title: "c1",
-            salary: 2,
+            minSalary: 2,
             hasEquity: true
         }
 
