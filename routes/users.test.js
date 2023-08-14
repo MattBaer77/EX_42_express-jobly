@@ -550,3 +550,75 @@ describe("DELETE /users/:username", function () {
     expect(resp.statusCode).toEqual(401);
   });
 });
+
+
+/************************************** POST /users/:username/jobs/:id */
+
+describe("POST /users/:username/job/:id", function () {
+
+  test("works for users - ADMIN", async function () {
+
+    const resp = await request(app)
+    .post(`/users/u1/jobs/1`)
+    .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(201)
+    expect(resp.body).toEqual({"applied" : "1"})
+
+  })
+
+  test("works for users - THAT USER", async function () {
+
+    const resp = await request(app)
+    .post(`/users/u1/jobs/1`)
+    .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(201)
+    expect(resp.body).toEqual({"applied" : "1"})
+
+  })
+
+  test("fails for users - JOB DOESN'T EXIST - ADMIN", async function () {
+
+    const resp = await request(app)
+    .post(`/users/u1/jobs/0`)
+    .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(404)
+
+  })
+
+  test("fails for users - JOB DOESN'T EXIST - THAT USER", async function () {
+
+    const resp = await request(app)
+    .post(`/users/u1/jobs/0`)
+    .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(404)
+
+  })
+
+  test("fails for incorrect users - THAT USER", async function () {
+
+    const resp = await request(app)
+    .post(`/users/u2/jobs/1`)
+    .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401)
+
+  })
+
+  test("fails for anon - THAT USER", async function () {
+
+    const resp = await request(app)
+    .post(`/users/u2/jobs/1`);
+    expect(resp.statusCode).toEqual(401)
+
+  })
+
+  test("fails for users USER DOESN'T EXIST - ADMIN", async function () {
+
+    const resp = await request(app)
+    .post(`/users/u0/jobs/1`)
+    .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(404)
+
+  })
+
+
+});
