@@ -430,39 +430,63 @@ describe("GET /companies?filters", function () {
     );
   });
 
-//   test("ok for anon - filter - Min + Max", async function () {
-//     const resp = await request(app).get("/companies?maxEmployees=2&minEmployees=2");
-//     expect(resp.body).toEqual(
-//       {companies:
-//         [
-//           {
-//             handle: "c2",
-//             name: "C2",
-//             description: "Desc2",
-//             numEmployees: 2,
-//             logoUrl: "http://c2.img",
-//           },
-//         ],
-//       }
-//     );
-//   });
+  test("ok for anon - filter - minSalary + hasEquity - TRUE", async function () {
+    const resp = await request(app).get("/jobs?minSalary=3&hasEquity=true");
+    expect(resp.body).toEqual(
+      {jobs:
+        [
+          {
+            id: 3,
+            title: "seed c2 job",
+            salary: 3,
+            equity: '0.3',
+            companyHandle: 'c2',
+          },
+        ],
+      }
+    );
+  });
 
-//   test("ok for anon - filter - Name Only Search", async function () {
-//     const resp = await request(app).get("/companies?nameLike=c2");
-//     expect(resp.body).toEqual(
-//       {companies:
-//         [
-//           {
-//             handle: "c2",
-//             name: "C2",
-//             description: "Desc2",
-//             numEmployees: 2,
-//             logoUrl: "http://c2.img",
-//           },
-//         ],
-//       }
-//     );
-//   });
+  test("ok for anon - filter - minSalary + hasEquity - FALSE", async function () {
+    const resp = await request(app).get("/jobs?minSalary=3&hasEquity=false");
+    expect(resp.body).toEqual(
+      {jobs:
+        [
+          {
+            id: 4,
+            title: "seed c3 job NO EQUITY",
+            salary: 4,
+            equity: null,
+            companyHandle: 'c3',
+          },
+        ],
+      }
+    );
+  });
+
+  test("ok for anon - filter - title Only Search", async function () {
+    const resp = await request(app).get("/jobs?title=c1");
+    expect(resp.body).toEqual(
+      {jobs:
+        [
+          {
+            id: 1,
+            title: "seed c1 job1",
+            salary: 1,
+            equity: "0.1",
+            companyHandle: 'c1',
+          },
+          {
+            id: 2,
+            title: "seed c1 job2",
+            salary: 2,
+            equity: '0.2',
+            companyHandle: 'c1',
+          },
+        ],
+      }
+    );
+  });
 
 });
 
