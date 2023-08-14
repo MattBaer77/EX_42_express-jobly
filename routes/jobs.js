@@ -76,60 +76,6 @@ router.get("/", async function (req, res, next) {
     return next(err);
   }
 
-  // if (!req.query.maxEmployees && !req.query.minEmployees) {
-
-  //   console.log(req.query)
-
-  //   console.log({message:"Title Only Search"})
-
-  // }
-
-  // if (!req.query.nameLike && !req.query.minEmployees) {
-
-  //   console.log(req.query)
-
-  //   console.log({message:"minSalary Only Search"})
-
-  // }
-
-  // if (!req.query.nameLike && !req.query.maxEmployees) {
-
-  //   console.log(req.query)
-
-  //   console.log({message:"hasEquity Only Search"})
-
-  // } 
-  
-  // if (req.query.nameLike && !req.query.maxEmployees) {
-
-  //   console.log(req.query)
-
-  //   console.log({message:"Title + minSalary Search"})
-
-  // }
-  
-  // if (req.query.nameLike && !req.query.minEmployees) {
-
-  //   console.log(req.query)
-
-  //   console.log({message:"Title + hasEquity Search"})
-
-  // }
-
-  // if (!req.query.nameLike) {
-
-  //   console.log(req.query)
-
-  //   console.log({message: "minSalary + hasEquity Search"})
-
-  // } else {
-
-  //   console.log(req.query)
-
-  //   console.log({message:"Title + minSalary + hasEquity Search"})
-
-  // }
-
 });
 
 // /** GET /[handle]  =>  { company }
