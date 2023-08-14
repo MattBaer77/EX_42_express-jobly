@@ -627,43 +627,46 @@ describe("PATCH /jobs/:id", function () {
 
 // /************************************** DELETE /companies/:handle */
 
-// describe("DELETE /companies/:handle", function () {
+describe("DELETE /companies/:handle", function () {
 
-//   test("unauth for anon", async function () {
-//     const resp = await request(app)
-//         .delete(`/companies/c1`);
-//     expect(resp.statusCode).toEqual(401);
-//   });
+  test("unauth for anon", async function () {
+    const resp = await request(app)
+        .delete(`/jobs/1`);
+    expect(resp.statusCode).toEqual(401);
+  });
 
-//   // ADMIN
+  // ADMIN
   
-//   test("works for users - ADMIN", async function () {
-//     const resp = await request(app)
-//         .delete(`/companies/c1`)
-//         .set("authorization", `Bearer ${adminToken}`);
-//     expect(resp.body).toEqual({ deleted: "c1" });
-//   });
+  test("works for users - ADMIN", async function () {
+    const resp = await request(app)
+        .delete(`/jobs/1`)
+        .set("authorization", `Bearer ${adminToken}`);
 
-//   test("not found for no such company - ADMIN", async function () {
-//     const resp = await request(app)
-//         .delete(`/companies/nope`)
-//         .set("authorization", `Bearer ${adminToken}`);
-//     expect(resp.statusCode).toEqual(404);
-//   });
+    console.log(resp.body)
 
-//   // NOT ADMIN
+    expect(resp.body).toEqual({ deleted: "1" });
+  });
 
-//   test("works for users - NOT ADMIN", async function () {
-//     const resp = await request(app)
-//         .delete(`/companies/c1`)
-//         .set("authorization", `Bearer ${u1Token}`);
-//     expect(resp.statusCode).toEqual(401)
-//   });
+  test("not found for no such company - ADMIN", async function () {
+    const resp = await request(app)
+        .delete(`/jobs/0`)
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(404);
+  });
 
-//   test("not found for no such company - NOT ADMIN", async function () {
-//     const resp = await request(app)
-//         .delete(`/companies/nope`)
-//         .set("authorization", `Bearer ${u1Token}`);
-//     expect(resp.statusCode).toEqual(401);
-//   });
-// });
+  // NOT ADMIN
+
+  test("works for users - NOT ADMIN", async function () {
+    const resp = await request(app)
+        .delete(`/jobs/1`)
+        .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401)
+  });
+
+  test("not found for no such company - NOT ADMIN", async function () {
+    const resp = await request(app)
+        .delete(`/jobs/0`)
+        .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401);
+  });
+});

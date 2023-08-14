@@ -193,7 +193,7 @@ class Job {
 
   /** Delete given job from database; returns undefined.
    *
-   * Throws NotFoundError if company not found.
+   * Throws NotFoundError if job not found.
    **/
 
   static async remove(id) {
@@ -205,7 +205,7 @@ class Job {
         [id]);
     const job = result.rows[0];
 
-    if (!job) throw new NotFoundError(`No company: ${id}`);
+    if (!job) throw new NotFoundError(`No job: ${id}`);
   }
 }
 

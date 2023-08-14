@@ -29,3 +29,9 @@ SELECT id,
         company_handle AS "companyHandle"
     FROM jobs
     ORDER BY id;
+
+
+DELETE
+FROM jobs
+WHERE id = 2
+RETURNING id
