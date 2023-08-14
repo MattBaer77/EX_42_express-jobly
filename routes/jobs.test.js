@@ -515,114 +515,115 @@ describe("GET /jobs/:id", function () {
 
 // /************************************** PATCH /companies/:handle */
 
-// describe("PATCH /companies/:handle", function () {
+describe("PATCH /jobs/:id", function () {
 
-//   // ANON
-//   test("unauth for anon - ANON", async function () {
-//     const resp = await request(app)
-//         .patch(`/companies/c1`)
-//         .send({
-//           name: "C1-new",
-//         });
+  // ANON
+  test("unauth for anon - ANON", async function () {
+    const resp = await request(app)
+        .patch(`/jobs/1`)
+        .send({
+          name: "C1-new",
+        });
 
-//     console.log(resp)
+    console.log(resp)
 
-//     expect(resp.statusCode).toEqual(401);
-//   });
+    expect(resp.statusCode).toEqual(401);
+  });
 
 //   // ADMIN
 
-//   test("works for users - ADMIN", async function () {
-//     const resp = await request(app)
-//         .patch(`/companies/c1`)
-//         .send({
-//           name: "C1-new",
-//         })
-//         .set("authorization", `Bearer ${adminToken}`);
-//     expect(resp.body).toEqual({
-//       company: {
-//         handle: "c1",
-//         name: "C1-new",
-//         description: "Desc1",
-//         numEmployees: 1,
-//         logoUrl: "http://c1.img",
-//       },
-//     });
-//   });
+  test("works for users - ADMIN", async function () {
+    const resp = await request(app)
+        .patch(`/jobs/1`)
+        .send({
+          title: "not from seed c1 job edited",
+        })
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.body).toEqual({
+      job:{
+        id: 1,
+        title: "not from seed c1 job edited",
+        salary: 1,
+        equity: "0.1",
+        companyHandle: 'c1',
+      },
+    });
+  });
 
-//   test("not found on no such company - ADMIN", async function () {
-//     const resp = await request(app)
-//         .patch(`/companies/nope`)
-//         .send({
-//           name: "new nope",
-//         })
-//         .set("authorization", `Bearer ${adminToken}`);
-//     expect(resp.statusCode).toEqual(404);
-//   });
+  test("not found on no such job - ADMIN", async function () {
+    const resp = await request(app)
+        .patch(`/jobs/0`)
+        .send({
+          title: "new nope",
+        })
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(404);
+  });
 
-//   test("bad request on handle change attempt - ADMIN", async function () {
-//     const resp = await request(app)
-//         .patch(`/companies/c1`)
-//         .send({
-//           handle: "c1-new",
-//         })
-//         .set("authorization", `Bearer ${adminToken}`);
-//     expect(resp.statusCode).toEqual(400);
-//   });
+  test("bad request on id change attempt - ADMIN", async function () {
+    console.log("FAILING")
+    const resp = await request(app)
+        .patch(`/jobs/1`)
+        .send({
+          id: 0,
+        })
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(400);
+  });
 
-//   test("bad request on invalid data - ADMIN", async function () {
-//     const resp = await request(app)
-//         .patch(`/companies/c1`)
-//         .send({
-//           logoUrl: "not-a-url",
-//         })
-//         .set("authorization", `Bearer ${adminToken}`);
-//     expect(resp.statusCode).toEqual(400);
-//   });
+  test("bad request on invalid data - ADMIN", async function () {
+    const resp = await request(app)
+        .patch(`/jobs/1`)
+        .send({
+          equity: "Not a Number for Equity",
+        })
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(400);
+  });
 
-//   // NOT ADMIN
+  // NOT ADMIN
 
-//   test("works for users - NOT ADMIN", async function () {
-//     const resp = await request(app)
-//         .patch(`/companies/c1`)
-//         .send({
-//           name: "C1-new",
-//         })
-//         .set("authorization", `Bearer ${u1Token}`);
-//     expect(resp.statusCode).toEqual(401);
-//   });
+  test("works for users - NOT ADMIN", async function () {
+    const resp = await request(app)
+        .patch(`/jobs/1`)
+        .send({
+          title: "not from seed c1 job edited",
+        })
+        .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401);
+  });
 
-//   test("not found on no such company - NOT ADMIN", async function () {
-//     const resp = await request(app)
-//         .patch(`/companies/nope`)
-//         .send({
-//           name: "new nope",
-//         })
-//         .set("authorization", `Bearer ${u1Token}`);
-//     expect(resp.statusCode).toEqual(401);
-//   });
+  test("not found on no such job - NOT ADMIN", async function () {
+    const resp = await request(app)
+        .patch(`/jobs/0`)
+        .send({
+          title: "new nope",
+        })
+        .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401);
+  });
 
-//   test("bad request on handle change attempt - NOT ADMIN", async function () {
-//     const resp = await request(app)
-//         .patch(`/companies/c1`)
-//         .send({
-//           handle: "c1-new",
-//         })
-//         .set("authorization", `Bearer ${u1Token}`);
-//     expect(resp.statusCode).toEqual(401);
-//   });
+  test("bad request on id change attempt - NOT ADMIN", async function () {
+    const resp = await request(app)
+        .patch(`/jobs/1`)
+        .send({
+          id: 0,
+        })
+        .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401);
+  });
 
-//   test("bad request on invalid data - NOT ADMIN", async function () {
-//     const resp = await request(app)
-//         .patch(`/companies/c1`)
-//         .send({
-//           logoUrl: "not-a-url",
-//         })
-//         .set("authorization", `Bearer ${u1Token}`);
-//     expect(resp.statusCode).toEqual(401);
-//   });
+  test("bad request on invalid data - NOT ADMIN", async function () {
+    const resp = await request(app)
+        .patch(`/companies/c1`)
+        .send({
+          equity: "Not a Number for Equity",
+        })
+        .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401);
+  });
 
-// });
+});
 
 // /************************************** DELETE /companies/:handle */
 

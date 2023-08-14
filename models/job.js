@@ -162,6 +162,7 @@ class Job {
         data,
         {});
 
+    if (data.id || data.id === 0) throw new BadRequestError(`Cannot Change id to ${data.id} Remove id from request data.`)
     if (data.companyHandle) throw new BadRequestError(`Cannot Change companyHandle to ${data.companyHandle} Remove companyHandle from request data.`)
 
     console.log(data)
