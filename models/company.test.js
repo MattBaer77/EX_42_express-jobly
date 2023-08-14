@@ -1043,12 +1043,54 @@ describe("findMinMaxEmployees", function () {
 describe("get", function () {
   test("works", async function () {
     let company = await Company.get("c1");
+    console.log(company)
     expect(company).toEqual({
       handle: "c1",
       name: "C1",
       description: "Desc1",
       numEmployees: 1,
       logoUrl: "http://c1.img",
+      jobs: [          
+        {
+          id: 1,
+          title: "seed c1 job1",
+          salary: 1,
+          equity: "0.1",
+          company_handle: 'c1',
+        },
+        {
+          id: 2,
+          title: "seed c1 job2",
+          salary: 2,
+          equity: '0.2',
+          company_handle: 'c1',
+        },
+      ]
+
+    });
+  });
+
+  test("works - COMPANY HAS NO JOBS", async function () {
+
+    const noJobCompany = {
+      handle: "new",
+      name: "New",
+      description: "New Description",
+      numEmployees: 1,
+      logoUrl: "http://new.img",
+    };
+
+    await Company.create(noJobCompany)
+
+    let company = await Company.get("new");
+    console.log(company)
+    expect(company).toEqual({
+      handle: "new",
+      name: "New",
+      description: "New Description",
+      numEmployees: 1,
+      logoUrl: "http://new.img",
+      jobs: []
     });
   });
 

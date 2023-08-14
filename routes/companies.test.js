@@ -372,6 +372,22 @@ describe("GET /companies/:handle", function () {
         description: "Desc1",
         numEmployees: 1,
         logoUrl: "http://c1.img",
+        jobs: [
+          {
+            id: 1,
+            title: "seed c1 job1",
+            salary: 1,
+            equity: "0.1",
+            company_handle: 'c1',
+          },
+          {
+            id: 2,
+            title: "seed c1 job2",
+            salary: 2,
+            equity: '0.2',
+            company_handle: 'c1',
+          },
+        ]
       },
     });
   });
@@ -385,6 +401,15 @@ describe("GET /companies/:handle", function () {
         description: "Desc2",
         numEmployees: 2,
         logoUrl: "http://c2.img",
+        jobs: [
+          {
+            id: 3,
+            title: "seed c2 job",
+            salary: 3,
+            equity: '0.3',
+            company_handle: 'c2',
+          }
+        ]
       },
     });
   });

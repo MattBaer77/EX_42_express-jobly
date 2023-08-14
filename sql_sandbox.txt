@@ -35,3 +35,8 @@ DELETE
 FROM jobs
 WHERE id = 2
 RETURNING id
+
+SELECT id, title, salary, equity, company_handle
+FROM jobs
+WHERE company_handle = 'sellers-bryant'
+ORDER BY id;
