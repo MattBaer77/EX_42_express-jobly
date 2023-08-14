@@ -27,7 +27,14 @@ describe("POST /jobs", function () {
     title: "c1 Job",
     salary: 1,
     equity: 0.1,
-    companyHandle: 'c1',
+    companyHandle: 'c1'
+
+  };
+
+  const newJobMinRequired = {
+
+    title: "c1 Job",
+    companyHandle: 'c1'
 
   };
 
@@ -58,33 +65,72 @@ describe("POST /jobs", function () {
         title: "c1 Job",
         salary: 1,
         equity: "0.1",
-        companyHandle: 'c1',
+        companyHandle: 'c1'
+    
+      },
+    });
+  });
+
+  test("ok for users - SALARY AND EQUITY MISSING - ADMIN", async function () {
+    const resp = await request(app)
+        .post("/jobs")
+        .send(newJobMinRequired)
+        .set("authorization", `Bearer ${adminToken}`);
+
+    expect(resp.statusCode).toEqual(201);
+    expect(resp.body).toEqual({
+      job: {
+
+        id: resp.body.job.id,
+        title: "c1 Job",
+        salary: null,
+        equity: null,
+        companyHandle: 'c1'
     
       },
     });
   });
   
-//   test("bad request with missing data - ADMIN", async function () {
-//     const resp = await request(app)
-//         .post("/companies")
-//         .send({
-//           handle: "new",
-//           numEmployees: 10,
-//         })
-//         .set("authorization", `Bearer ${adminToken}`);
-//     expect(resp.statusCode).toEqual(400);
-//   });
+  test("bad request with missing data - TITLE MISSING - ADMIN", async function () {
+    const resp = await request(app)
+        .post("/jobs")
+        .send({
 
-//   test("bad request with invalid data - ADMIN", async function () {
-//     const resp = await request(app)
-//         .post("/companies")
-//         .send({
-//           ...newCompany,
-//           logoUrl: "not-a-url",
-//         })
-//         .set("authorization", `Bearer ${adminToken}`);
-//     expect(resp.statusCode).toEqual(400);
-//   });
+          salary: 1,
+          equity: 0.1,
+          companyHandle: 'c1'
+
+        })
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(400);
+  });
+  
+  test("bad request with missing data - TITLE MISSING - ADMIN", async function () {
+    const resp = await request(app)
+        .post("/jobs")
+        .send({
+
+          title: "c1 Job",
+          salary: 1,
+          equity: 0.1,
+
+        })
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(400);
+  });
+
+  test("bad request with invalid data - ADMIN", async function () {
+    const resp = await request(app)
+        .post("/jobs")
+        .send({
+          title: "c1 Job",
+          salary: 1,
+          equity: 0.1,
+          companyHandle: 'not valid company'
+        })
+        .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(400);
+  });
 
 //   // NOT ADMIN
 
