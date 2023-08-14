@@ -69,7 +69,7 @@ class Job {
 
   static async findFilter(data) {
 
-    console.log(data)
+    console.log(data.hasEquity)
 
     let filterSQL = '';
     let filterParams = []
@@ -89,9 +89,14 @@ class Job {
       filterParams.push(data.minSalary)
     }
 
-    if (data.hasEquity) {
-      console.log('Equity included')
+    if (data.hasEquity == 'true' || data.hasEquity == true) {
+      console.log('Equity included - TRUE')
       filterSQL += ` AND equity > 0`
+    }
+
+    if (data.hasEquity == 'false' || data.hasEquity == false) {
+      console.log('Equity included - FALSE')
+      filterSQL += ` AND equity = 0 OR equity IS NULL`
     }
 
     const reformatFilterSQL = filterSQL.slice(5)
