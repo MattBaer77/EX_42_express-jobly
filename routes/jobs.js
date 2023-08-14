@@ -9,7 +9,8 @@ const { BadRequestError } = require("../expressError");
 const { ensureLoggedIn, ensureAdmin } = require("../middleware/auth");
 const Job = require("../models/job");
 
-const jobCommonSchema = require("../schemas/jobCommon.json");
+const jobNewSchema = require("../schemas/jobNew.json");
+const jobUpdateSchema = require("../schemas/jobUpdate.json");
 
 const router = new express.Router();
 
@@ -25,7 +26,7 @@ const router = new express.Router();
 
 router.post("/", ensureAdmin, async function (req, res, next) {
   try {
-    const validator = jsonschema.validate(req.body, jobCommonSchema);
+    const validator = jsonschema.validate(req.body, jobNewSchema);
     if (!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
@@ -38,138 +39,98 @@ router.post("/", ensureAdmin, async function (req, res, next) {
   }
 });
 
-// /** GET /  =>
-//  *   { companies: [ { handle, name, description, numEmployees, logoUrl }, ...] }
-//  *
-//  * Can filter on provided search filters:
-//  * - minEmployees
-//  * - maxEmployees
-//  * - nameLike (will find case-insensitive, partial matches)
-//  *
-//  * Authorization required: none
-//  */
+/** GET /  =>
+ *   { jobs: [ { title, salary, equity, companyHandle }, ...] }
+ *
+ * Can filter on provided search filters:
+ * - title
+ * - minSalary
+ * - hasEquity
+ *
+ * Authorization required: none
+ */
 
-// router.get("/", async function (req, res, next) {
+router.get("/", async function (req, res, next) {
 
-//   if (!req.query.nameLike && !req.query.maxEmployees && !req.query.minEmployees) {
+  if (!req.query) {
 
-//     console.log(req.query)
+    console.log(req.query)
+    console.log({message:"Unfiltered Search"})
 
-//     console.log({message:"Unfiltered Search"})
+    try {
+      const jobs = await Job.findAll();
+      return res.json({jobs});
+    } catch (err) {
+      return next(err);
+    }
 
-//     try {
-//       const companies = await Company.findAll();
-//       return res.json({ companies });
-//     } catch (err) {
-//       return next(err);
-//     }
+  }
 
-//   }
+  console.log(req.query)
+  console.log({message: "Filtered Search"})
 
-//   if (!req.query.maxEmployees && !req.query.minEmployees) {
+  try {
+    const jobs = await Job.findFilter(req.query);
+    return res.json({jobs});
+  } catch (err) {
+    return next(err);
+  }
 
-//     console.log(req.query)
+  // if (!req.query.maxEmployees && !req.query.minEmployees) {
 
-//     console.log({message:"Name Only Search"})
+  //   console.log(req.query)
 
-//     try {
-//       const companies = await Company.findNameLikeOnly(req.query);
-//       return res.json({ companies });
-//     } catch (err) {
-//       return next(err);
-//     }
+  //   console.log({message:"Title Only Search"})
 
-//   }
+  // }
 
-//   if (!req.query.nameLike && !req.query.minEmployees) {
+  // if (!req.query.nameLike && !req.query.minEmployees) {
 
-//     console.log(req.query)
+  //   console.log(req.query)
 
-//     console.log({message:"Max Only Search"})
+  //   console.log({message:"minSalary Only Search"})
 
-//     try {
-//       const companies = await Company.findMaxEmployeesOnly(req.query);
-//       return res.json({ companies });
-//     } catch (err) {
-//       return next(err);
-//     }
+  // }
 
-//   }
+  // if (!req.query.nameLike && !req.query.maxEmployees) {
 
-//   if (!req.query.nameLike && !req.query.maxEmployees) {
+  //   console.log(req.query)
 
-//     console.log(req.query)
+  //   console.log({message:"hasEquity Only Search"})
 
-//     console.log({message:"Min Only Search"})
-
-//     try {
-//       const companies = await Company.findMinEmployeesOnly(req.query);
-//       return res.json({ companies });
-//     } catch (err) {
-//       return next(err);
-//     }
-
-//   } 
+  // } 
   
-//   if (req.query.nameLike && !req.query.maxEmployees) {
+  // if (req.query.nameLike && !req.query.maxEmployees) {
 
-//     console.log(req.query)
+  //   console.log(req.query)
 
-//     console.log({message:"Name + Min Search"})
+  //   console.log({message:"Title + minSalary Search"})
 
-//     try {
-//       const companies = await Company.findNameLikeMinEmployees(req.query);
-//       return res.json({ companies });
-//     } catch (err) {
-//       return next(err);
-//     }
-
-//   }
+  // }
   
-//   if (req.query.nameLike && !req.query.minEmployees) {
+  // if (req.query.nameLike && !req.query.minEmployees) {
 
-//     console.log(req.query)
+  //   console.log(req.query)
 
-//     console.log({message:"Name + Max Search"})
+  //   console.log({message:"Title + hasEquity Search"})
 
-//     try {
-//       const companies = await Company.findNameLikeMaxEmployees(req.query);
-//       return res.json({ companies });
-//     } catch (err) {
-//       return next(err);
-//     }
+  // }
 
-//   }
+  // if (!req.query.nameLike) {
 
-//   if (!req.query.nameLike) {
+  //   console.log(req.query)
 
-//     console.log(req.query)
+  //   console.log({message: "minSalary + hasEquity Search"})
 
-//     console.log({message: "Min + Max Search"})
+  // } else {
 
-//     try {
-//       const companies = await Company.findMinMaxEmployees(req.query);
-//       return res.json({ companies });
-//     } catch (err) {
-//       return next(err);
-//     }
+  //   console.log(req.query)
 
-//   } else {
+  //   console.log({message:"Title + minSalary + hasEquity Search"})
 
-//     console.log(req.query)
+  // }
 
-//     console.log({message:"Name + Min + Max Search"})
-
-//     try {
-//       const companies = await Company.findAllFilter(req.query);
-//       return res.json({ companies });
-//     } catch (err) {
-//       return next(err);
-//     }
-
-//   }
-
-// });
+});
 
 // /** GET /[handle]  =>  { company }
 //  *
