@@ -134,38 +134,42 @@ describe("POST /jobs", function () {
 
 //   // NOT ADMIN
 
-//   test("FAIL for users - NOT ADMIN", async function () {
+  test("FAIL for users - NOT ADMIN", async function () {
 
-//     const resp = await request(app)
-//         .post("/companies")
-//         .send(newCompany)
-//         .set("authorization", `Bearer ${u1Token}`);
-//     expect(resp.statusCode).toEqual(401);
+    const resp = await request(app)
+        .post("/jobs")
+        .send(newJob)
+        .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401);
 
-//   });
+  });
 
-//   test("bad request with missing data - NOT ADMIN", async function () {
-//     const resp = await request(app)
-//         .post("/companies")
-//         .send({
-//           handle: "new",
-//           numEmployees: 10,
-//         })
-//         .set("authorization", `Bearer ${u1Token}`);
-//     expect(resp.statusCode).toEqual(401);
-//   });
+  test("bad request with missing data - NOT ADMIN", async function () {
+    const resp = await request(app)
+        .post("/jobs")
+        .send({
 
-//   test("bad request with invalid data - NOT ADMIN", async function () {
-//     const resp = await request(app)
-//         .post("/companies")
-//         .send({
-//           ...newCompany,
-//           logoUrl: "not-a-url",
-//         })
-//         .set("authorization", `Bearer ${u1Token}`);
-//     expect(resp.statusCode).toEqual(401);
-//   });
-// });
+          title: "c1 Job",
+          salary: 1,
+          equity: 0.1,
+
+        })
+        .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  test("bad request with invalid data - NOT ADMIN", async function () {
+    const resp = await request(app)
+        .post("/jobs")
+        .send({
+          title: "c1 Job",
+          salary: 1,
+          equity: 0.1,
+          companyHandle: 'not valid company'
+        })
+    expect(resp.statusCode).toEqual(401);
+  });
+});
 
 // /************************************** GET /companies */
 
@@ -414,7 +418,7 @@ describe("POST /jobs", function () {
 //     );
 //   });
 
-});
+// });
 
 // /************************************** GET /companies/:handle */
 
