@@ -228,3 +228,39 @@ describe("remove", function () {
     }
   });
 });
+
+/************************************** apply */
+
+describe('add application for user', () => {
+
+  test("works", async function () {
+
+    const application = await User.apply("u1", 1)
+    expect(application).toEqual({job_id:1})
+
+  })
+
+  test("no such user", async function () {
+
+    try {
+      const application = await User.apply("Not A User", 1);
+      fail()
+    } catch (err){
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+
+  })
+
+  test("no such job", async function () {
+
+    try {
+      const application = await User.apply("u1", 0);
+      fail()
+    } catch (err){
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+
+  })
+  
+})
+

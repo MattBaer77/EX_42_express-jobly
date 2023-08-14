@@ -204,6 +204,39 @@ class User {
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
   }
+
+  /** Apply -  */
+
+  static async apply(username, job_id) {
+
+    const noUserCheck = await db.query(
+      `SELECT username FROM users WHERE username = $1`,[username]
+    );
+
+    if (!noUserCheck.rows[0]) {throw new NotFoundError(`No user: ${username}`)}
+
+    const noJobCheck = await db.query(
+      `SELECT title FROM jobs WHERE id = $1`,[job_id]
+    );
+
+    if (!noJobCheck.rows[0]) {throw new NotFoundError(`No job: ${job_id}`)}
+
+    let result = await db.query(
+      `INSERT INTO applications
+      (username,
+        job_id)
+      VALUES($1, $2)
+      RETURNING job_id`,
+      [username, job_id]
+    )
+
+    const application = result.rows[0]
+
+    console.log(application)
+
+    return application
+
+  }
 }
 
 
