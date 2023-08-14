@@ -74,6 +74,38 @@ describe("create", function () {
 
     });
   
+    test("can create duplicate - NO SALARY", async function () {
+
+        const newJobNoSalary = {
+            title: "c1 Job",
+            equity: 0.1,
+            company_handle: 'c1',
+          };
+
+        let job = await Job.create(newJobNoSalary);
+
+        expect(job.title).toEqual(newJobNoSalary.title);
+        expect(job.salary).toEqual(null);
+        expect(job.equity).toEqual(newJobNoSalary.equity.toString());
+        expect(job.companyHandle).toEqual(newJobNoSalary.company_handle);
+
+        const result = await db.query(
+                `SELECT id, title, salary, equity, company_handle AS "companyHandle"
+                FROM jobs
+                WHERE id = ${job.id}`);
+
+        expect(result.rows).toEqual([
+        {
+            id: job.id,
+            title: "c1 Job",
+            salary: null,
+            equity: '0.1',
+            companyHandle: 'c1'
+        },
+        ]);
+
+    });
+  
     test("can create duplicate - NO EQUITY", async function () {
 
         const newJobNoEquity = {
@@ -105,6 +137,38 @@ describe("create", function () {
         ]);
 
     });
+  
+    test("can create duplicate - NO SALARY + NO EQUITY", async function () {
+
+        const newJobNoSalaryAndNoEquity = {
+            title: "c1 Job",
+            company_handle: 'c1',
+          };
+
+        let job = await Job.create(newJobNoSalaryAndNoEquity);
+
+        expect(job.title).toEqual(newJobNoSalaryAndNoEquity.title);
+        expect(job.salary).toEqual(null);
+        expect(job.equity).toEqual(null);
+        expect(job.companyHandle).toEqual(newJobNoSalaryAndNoEquity.company_handle);
+
+        const result = await db.query(
+                `SELECT id, title, salary, equity, company_handle AS "companyHandle"
+                FROM jobs
+                WHERE id = ${job.id}`);
+
+        expect(result.rows).toEqual([
+        {
+            id: job.id,
+            title: "c1 Job",
+            salary: null,
+            equity: null,
+            companyHandle: 'c1'
+        },
+        ]);
+
+    });
+
 });
   
 /************************************** findAll */
