@@ -3,6 +3,7 @@
 const db = require("../db.js");
 const User = require("../models/user");
 const Company = require("../models/company");
+const Job = require("../models/job");
 const { createToken } = require("../helpers/tokens");
 
 async function commonBeforeAll() {
@@ -10,6 +11,9 @@ async function commonBeforeAll() {
   await db.query("DELETE FROM users");
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM companies");
+
+  await db.query("DELETE FROM jobs")
+  await db.query("SELECT setval('jobs_id_seq', 1, false)") // Thanks ChatGPT!
 
   await Company.create(
       {
@@ -35,6 +39,35 @@ async function commonBeforeAll() {
         description: "Desc3",
         logoUrl: "http://c3.img",
       });
+
+  await Job.create(
+    {
+      title: "seed c1 job1",
+      salary: 1,
+      equity: 0.1,
+      companyHandle: 'c1',
+    });
+  await Job.create(
+    {
+      title: "seed c1 job2",
+      salary: 2,
+      equity: 0.2,
+      companyHandle: 'c1',
+    });
+  await Job.create(
+    {
+      title: "seed c2 job",
+      salary: 3,
+      equity: 0.3,
+      companyHandle: 'c2',
+    });
+  await Job.create(
+    {
+      title: "seed c3 job NO EQUITY",
+      salary: 4,
+      equity: null,
+      companyHandle: 'c3',
+    });
 
   await User.register({
     username: "u1",
