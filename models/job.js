@@ -25,7 +25,7 @@ class Job {
     [companyHandle]);
 
     if (!existingCompanyCheck.rows[0])
-      throw new BadRequestError(`Duplicate company: ${handle}`);
+      throw new BadRequestError(`No Company: ${companyHandle}`);
 
     const result = await db.query(
           `INSERT INTO jobs

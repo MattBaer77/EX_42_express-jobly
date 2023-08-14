@@ -184,7 +184,7 @@ describe("create", function () {
         let job = await Job.create(newJobInvalidCompanyHandle);
         fail();
       } catch(err) {
-        expect(err instanceof ReferenceError).toBeTruthy();
+        expect(err instanceof BadRequestError).toBeTruthy();
       }
 
     })
