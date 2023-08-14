@@ -203,6 +203,7 @@ describe("GET /users", function () {
           lastName: "U1L",
           email: "user1@user.com",
           isAdmin: false,
+          jobs: [1,2],
         },
         {
           username: "u2",
@@ -210,6 +211,7 @@ describe("GET /users", function () {
           lastName: "U2L",
           email: "user2@user.com",
           isAdmin: false,
+          jobs:[],
         },
         {
           username: "u3",
@@ -217,6 +219,7 @@ describe("GET /users", function () {
           lastName: "U3L",
           email: "user3@user.com",
           isAdmin: false,
+          jobs:[],
         },
       ],
     });
@@ -280,6 +283,7 @@ describe("GET /users/:username", function () {
         lastName: "U1L",
         email: "user1@user.com",
         isAdmin: false,
+        jobs:[1,2],
       },
     });
   });
@@ -304,6 +308,7 @@ describe("GET /users/:username", function () {
         lastName: "U1L",
         email: "user1@user.com",
         isAdmin: false,
+        jobs:[1,2],
       },
     });
   });
@@ -559,20 +564,20 @@ describe("POST /users/:username/job/:id", function () {
   test("works for users - ADMIN", async function () {
 
     const resp = await request(app)
-    .post(`/users/u1/jobs/1`)
+    .post(`/users/u1/jobs/3`)
     .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(201)
-    expect(resp.body).toEqual({"applied" : "1"})
+    expect(resp.body).toEqual({"applied" : "3"})
 
   })
 
   test("works for users - THAT USER", async function () {
 
     const resp = await request(app)
-    .post(`/users/u1/jobs/1`)
+    .post(`/users/u1/jobs/3`)
     .set("authorization", `Bearer ${u1Token}`);
     expect(resp.statusCode).toEqual(201)
-    expect(resp.body).toEqual({"applied" : "1"})
+    expect(resp.body).toEqual({"applied" : "3"})
 
   })
 
@@ -597,7 +602,7 @@ describe("POST /users/:username/job/:id", function () {
   test("fails for incorrect users - THAT USER", async function () {
 
     const resp = await request(app)
-    .post(`/users/u2/jobs/1`)
+    .post(`/users/u2/jobs/3`)
     .set("authorization", `Bearer ${u1Token}`);
     expect(resp.statusCode).toEqual(401)
 
@@ -606,7 +611,7 @@ describe("POST /users/:username/job/:id", function () {
   test("fails for anon - THAT USER", async function () {
 
     const resp = await request(app)
-    .post(`/users/u2/jobs/1`);
+    .post(`/users/u2/jobs/3`);
     expect(resp.statusCode).toEqual(401)
 
   })
@@ -614,7 +619,7 @@ describe("POST /users/:username/job/:id", function () {
   test("fails for users USER DOESN'T EXIST - ADMIN", async function () {
 
     const resp = await request(app)
-    .post(`/users/u0/jobs/1`)
+    .post(`/users/u0/jobs/3`)
     .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(404)
 

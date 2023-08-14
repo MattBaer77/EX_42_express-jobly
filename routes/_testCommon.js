@@ -93,6 +93,9 @@ async function commonBeforeAll() {
     password: "password3",
     isAdmin: false,
   });
+
+  await User.apply('u1', 1);
+  await User.apply('u1', 2);
 }
 
 async function commonBeforeEach() {
