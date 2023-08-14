@@ -171,7 +171,7 @@ describe("POST /jobs", function () {
   });
 });
 
-// /************************************** GET /companies */
+// /************************************** GET /jobs */
 
 describe("GET /jobs", function () {
   test("ok for anon", async function () {
@@ -223,7 +223,7 @@ describe("GET /jobs", function () {
   });
 });
 
-// /************************************** GET /companies with filtering */
+// /************************************** GET /jobs with filtering */
 
 describe("GET /companies?filters", function () {
 
@@ -490,40 +490,28 @@ describe("GET /companies?filters", function () {
 
 });
 
-// /************************************** GET /companies/:handle */
+/************************************** GET /jobs/:handle */
 
-// describe("GET /companies/:handle", function () {
-//   test("works for anon", async function () {
-//     const resp = await request(app).get(`/companies/c1`);
-//     expect(resp.body).toEqual({
-//       company: {
-//         handle: "c1",
-//         name: "C1",
-//         description: "Desc1",
-//         numEmployees: 1,
-//         logoUrl: "http://c1.img",
-//       },
-//     });
-//   });
+describe("GET /jobs/:id", function () {
+  test("works for anon", async function () {
+    const resp = await request(app).get(`/jobs/1`);
+    expect(resp.body).toEqual({
+      job:{
+        id: 1,
+        title: "seed c1 job1",
+        salary: 1,
+        equity: "0.1",
+        companyHandle: 'c1',
+      },
+    });
+  });
 
-//   test("works for anon: company w/o jobs", async function () {
-//     const resp = await request(app).get(`/companies/c2`);
-//     expect(resp.body).toEqual({
-//       company: {
-//         handle: "c2",
-//         name: "C2",
-//         description: "Desc2",
-//         numEmployees: 2,
-//         logoUrl: "http://c2.img",
-//       },
-//     });
-//   });
+  test("not found for no such company", async function () {
+    const resp = await request(app).get(`/jobs/0`);
+    expect(resp.statusCode).toEqual(404);
+  });
 
-//   test("not found for no such company", async function () {
-//     const resp = await request(app).get(`/companies/nope`);
-//     expect(resp.statusCode).toEqual(404);
-//   });
-// });
+});
 
 // /************************************** PATCH /companies/:handle */
 
