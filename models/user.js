@@ -112,6 +112,21 @@ class User {
            ORDER BY username`,
     );
 
+    for(let user of result.rows) {
+
+      const jobApplicationRes = await db.query(
+        `SELECT job_id
+        FROM applications
+        WHERE username = $1`,
+        [user.username],
+      )
+  
+      let jobApplications = jobApplicationRes.rows.map(a => a.job_id)
+  
+      user.jobs = [...jobApplications]
+  
+    }
+
     return result.rows;
   }
 
@@ -138,6 +153,19 @@ class User {
     const user = userRes.rows[0];
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
+
+    const jobApplicationRes = await db.query(
+      `SELECT job_id
+      FROM applications
+      WHERE username = $1`,
+      [username],
+    )
+
+    let jobApplications = jobApplicationRes.rows.map(a => a.job_id)
+
+    user.jobs = [...jobApplications]
+
+    console.log(user.jobs)
 
     return user;
   }
