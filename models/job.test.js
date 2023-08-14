@@ -171,6 +171,24 @@ describe("create", function () {
 
     });
 
+    test("fails if invalid companyHandle", async function () {
+
+      const newJobInvalidCompanyHandle = {
+        title: "c1 Job",
+        salary: 1,
+        equity: 0.1,
+        companyHandle: 'not a valid company',
+      };
+
+      try{
+        let job = await Job.create(newJobInvalidCompanyHandle);
+        fail();
+      } catch(err) {
+        expect(err instanceof ReferenceError).toBeTruthy();
+      }
+
+    })
+
 });
   
 /************************************** findAll */
