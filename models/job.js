@@ -18,6 +18,15 @@ class Job {
 
   static async create({ title, salary, equity, companyHandle }) {
 
+    const existingCompanyCheck = await db.query(
+      `SELECT handle
+       FROM companies
+       WHERE handle = $1`,
+    [companyHandle]);
+
+    if (!existingCompanyCheck.rows[0])
+      throw new BadRequestError(`Duplicate company: ${handle}`);
+
     const result = await db.query(
           `INSERT INTO jobs
             (title, salary, equity, company_handle)
