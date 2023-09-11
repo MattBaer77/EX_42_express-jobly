@@ -55,119 +55,27 @@ router.get("/", async function (req, res, next) {
   if (!req.query.nameLike && !req.query.maxEmployees && !req.query.minEmployees) {
 
     console.log(req.query)
-
     console.log({message:"Unfiltered Search"})
 
     try {
+
       const companies = await Company.findAll();
       return res.json({ companies });
-    } catch (err) {
-      return next(err);
-    }
-
-  }
-
-  if (!req.query.maxEmployees && !req.query.minEmployees) {
-
-    console.log(req.query)
-
-    console.log({message:"Name Only Search"})
-
-    try {
-      const companies = await Company.findNameLikeOnly(req.query);
-      return res.json({ companies });
-    } catch (err) {
-      return next(err);
-    }
-
-  }
-
-  if (!req.query.nameLike && !req.query.minEmployees) {
-
-    console.log(req.query)
-
-    console.log({message:"Max Only Search"})
-
-    try {
-      const companies = await Company.findMaxEmployeesOnly(req.query);
-      return res.json({ companies });
-    } catch (err) {
-      return next(err);
-    }
-
-  }
-
-  if (!req.query.nameLike && !req.query.maxEmployees) {
-
-    console.log(req.query)
-
-    console.log({message:"Min Only Search"})
-
-    try {
-      const companies = await Company.findMinEmployeesOnly(req.query);
-      return res.json({ companies });
-    } catch (err) {
-      return next(err);
-    }
-
-  } 
   
-  if (req.query.nameLike && !req.query.maxEmployees) {
-
-    console.log(req.query)
-
-    console.log({message:"Name + Min Search"})
-
-    try {
-      const companies = await Company.findNameLikeMinEmployees(req.query);
-      return res.json({ companies });
     } catch (err) {
-      return next(err);
-    }
-
-  }
-  
-  if (req.query.nameLike && !req.query.minEmployees) {
-
-    console.log(req.query)
-
-    console.log({message:"Name + Max Search"})
-
-    try {
-      const companies = await Company.findNameLikeMaxEmployees(req.query);
-      return res.json({ companies });
-    } catch (err) {
-      return next(err);
+      return next (err);
     }
 
   }
 
-  if (!req.query.nameLike) {
+  console.log(req.query)
+  console.log({message: "Filtered Search"})
 
-    console.log(req.query)
-
-    console.log({message: "Min + Max Search"})
-
-    try {
-      const companies = await Company.findMinMaxEmployees(req.query);
-      return res.json({ companies });
-    } catch (err) {
-      return next(err);
-    }
-
-  } else {
-
-    console.log(req.query)
-
-    console.log({message:"Name + Min + Max Search"})
-
-    try {
-      const companies = await Company.findAllFilter(req.query);
-      return res.json({ companies });
-    } catch (err) {
-      return next(err);
-    }
-
+  try {
+    const companies = await Company.findFilter(req.query);
+    return res.json({companies});
+  } catch (err) {
+    return next(err);
   }
 
 });
