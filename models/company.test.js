@@ -87,16 +87,15 @@ describe("findAll", function () {
   });
 });
 
+/************************************** findFilter */
 
-/************************************** findAllFilter */
-
-describe("findAllFilter", function () {
+describe("findFilter", function () {
 
   test("works: all filters - all data", async function () {
 
     const data = {nameLike:"c", minEmployees:"1", maxEmployees:"3"}
 
-    let companies = await Company.findAllFilter(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -127,7 +126,7 @@ describe("findAllFilter", function () {
 
     const data = {nameLike:"c", minEmployees:"2", maxEmployees:"3"}
 
-    let companies = await Company.findAllFilter(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c2",
@@ -151,7 +150,7 @@ describe("findAllFilter", function () {
 
     const data = {nameLike:"c", minEmployees:"3", maxEmployees:"3"}
 
-    let companies = await Company.findAllFilter(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c3",
@@ -168,7 +167,7 @@ describe("findAllFilter", function () {
 
     const data = {nameLike:"c", minEmployees:"1", maxEmployees:"2"}
 
-    let companies = await Company.findAllFilter(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -192,7 +191,7 @@ describe("findAllFilter", function () {
 
     const data = {nameLike:"c", minEmployees:"1", maxEmployees:"1"}
 
-    let companies = await Company.findAllFilter(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -209,7 +208,7 @@ describe("findAllFilter", function () {
 
     const data = {nameLike:"c1", minEmployees:"1", maxEmployees:"3"}
 
-    let companies = await Company.findAllFilter(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -226,7 +225,7 @@ describe("findAllFilter", function () {
 
     const data = {nameLike:"b", minEmployees:"1", maxEmployees:"3"}
 
-    let companies = await Company.findAllFilter(data);
+    let companies = await Company.findFilter(data);
 
     expect(companies).toEqual([]);
 
@@ -234,15 +233,15 @@ describe("findAllFilter", function () {
 
 })
 
-/************************************** findNameLikeOnly */
+// /************************************** findFilter - nameLike Only */
 
-describe("findNameLikeOnly", function () {
+describe("findFilter nameLike Only", function () {
 
   test("works: finds c1 with c1", async function () {
 
     const data = {nameLike:"c1"}
 
-    let companies = await Company.findNameLikeOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -259,7 +258,7 @@ describe("findNameLikeOnly", function () {
 
     const data = {nameLike:"c2"}
 
-    let companies = await Company.findNameLikeOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c2",
@@ -276,7 +275,7 @@ describe("findNameLikeOnly", function () {
 
     const data = {nameLike:"c"}
 
-    let companies = await Company.findNameLikeOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -307,22 +306,22 @@ describe("findNameLikeOnly", function () {
 
     const data = {nameLike:"b"}
 
-    let companies = await Company.findNameLikeOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
 
   })
 
 })
 
-/************************************** findMaxEmployeesOnly */
+// /************************************** findFilter - maxEmployees Only */
 
-describe("findMaxEmployeesOnly", function () {
+describe("findFilter maxEmployees Only", function () {
 
   test("works: finds all with 3", async function () {
 
     const data = {maxEmployees:3}
 
-    let companies = await Company.findMaxEmployeesOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -353,7 +352,7 @@ describe("findMaxEmployeesOnly", function () {
 
     const data = {maxEmployees:2}
 
-    let companies = await Company.findMaxEmployeesOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -378,7 +377,7 @@ describe("findMaxEmployeesOnly", function () {
 
     const data = {maxEmployees:1}
 
-    let companies = await Company.findMaxEmployeesOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -395,24 +394,22 @@ describe("findMaxEmployeesOnly", function () {
 
     const data = {maxEmployees:0}
 
-    let companies = await Company.findMaxEmployeesOnly(data);
-    expect(companies).toEqual([
-
-    ]);
+    let companies = await Company.findFilter(data);
+    expect(companies).toEqual([]);
 
   })
 
 })
 
-/************************************** findMinEmployeesOnly */
+// /************************************** findFilter - minEmployees Only */
 
-describe("findMinEmployeesOnly", function () {
+describe("findFilter minEmployees Only", function () {
 
   test("works: finds all with 3 with 0", async function () {
 
     const data = {minEmployees:0}
 
-    let companies = await Company.findMinEmployeesOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -443,7 +440,7 @@ describe("findMinEmployeesOnly", function () {
 
     const data = {minEmployees:1}
 
-    let companies = await Company.findMinEmployeesOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -474,7 +471,7 @@ describe("findMinEmployeesOnly", function () {
 
     const data = {minEmployees:2}
 
-    let companies = await Company.findMinEmployeesOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c2",
@@ -498,7 +495,7 @@ describe("findMinEmployeesOnly", function () {
 
     const data = {minEmployees:3}
 
-    let companies = await Company.findMinEmployeesOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c3",
@@ -515,22 +512,22 @@ describe("findMinEmployeesOnly", function () {
 
     const data = {minEmployees:4}
 
-    let companies = await Company.findMinEmployeesOnly(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
 
   });
 
 })
 
-/************************************** findNameLikeMinEmployees */
+// /************************************** findFilter - nameLike + minEmployees */
 
-describe("findNameLikeMinEmployees", function () {
+describe("findFilter nameLike + minEmployees", function () {
 
   test("works: finds all with 'c' and 3 with 0", async function () {
 
     const data = {nameLike:'c', minEmployees:0}
 
-    let companies = await Company.findNameLikeMinEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -561,7 +558,7 @@ describe("findNameLikeMinEmployees", function () {
 
     const data = {nameLike:'c', minEmployees:1}
 
-    let companies = await Company.findNameLikeMinEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -592,7 +589,7 @@ describe("findNameLikeMinEmployees", function () {
 
     const data = {nameLike:'c', minEmployees:2}
 
-    let companies = await Company.findNameLikeMinEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c2",
@@ -616,7 +613,7 @@ describe("findNameLikeMinEmployees", function () {
 
     const data = {nameLike:'c', minEmployees:3}
 
-    let companies = await Company.findNameLikeMinEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c3",
@@ -633,7 +630,7 @@ describe("findNameLikeMinEmployees", function () {
 
     const data = {nameLike:'c', minEmployees:4}
 
-    let companies = await Company.findNameLikeMinEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
 
   });
@@ -642,7 +639,7 @@ describe("findNameLikeMinEmployees", function () {
 
     const data = {nameLike:'b', minEmployees:0}
 
-    let companies = await Company.findNameLikeMinEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
     
   })
@@ -651,7 +648,7 @@ describe("findNameLikeMinEmployees", function () {
 
     const data = {nameLike:'b', minEmployees:1}
 
-    let companies = await Company.findNameLikeMinEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
     
   })
@@ -660,7 +657,7 @@ describe("findNameLikeMinEmployees", function () {
 
     const data = {nameLike:'b', minEmployees:2}
 
-    let companies = await Company.findNameLikeMinEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
 
   });
@@ -669,7 +666,7 @@ describe("findNameLikeMinEmployees", function () {
 
     const data = {nameLike:'b', minEmployees:3}
 
-    let companies = await Company.findNameLikeMinEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
 
   });
@@ -678,22 +675,22 @@ describe("findNameLikeMinEmployees", function () {
 
         const data = {nameLike:'b', minEmployees:4}
 
-    let companies = await Company.findNameLikeMinEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
 
   });
 
 })
 
-/************************************** findNameLikeMaxEmployees */
+// /************************************** findFilter - nameLike + maxEmployees */
 
-describe("findNameLikeMaxEmployees", function () {
+describe("findFilter nameLike maxEmployees", function () {
 
   test("works: finds all with 'c' and 3", async function () {
 
     const data = {nameLike:'c', maxEmployees:3}
 
-    let companies = await Company.findNameLikeMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -724,7 +721,7 @@ describe("findNameLikeMaxEmployees", function () {
 
     const data = {nameLike:'c', maxEmployees:2}
 
-    let companies = await Company.findNameLikeMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -749,7 +746,7 @@ describe("findNameLikeMaxEmployees", function () {
 
     const data = {nameLike:'c', maxEmployees:1}
 
-    let companies = await Company.findNameLikeMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -766,7 +763,7 @@ describe("findNameLikeMaxEmployees", function () {
 
     const data = {nameLike:'c', maxEmployees:0}
 
-    let companies = await Company.findNameLikeMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
 
     ]);
@@ -777,7 +774,7 @@ describe("findNameLikeMaxEmployees", function () {
 
     const data = {nameLike:'b', maxEmployees:3}
 
-    let companies = await Company.findNameLikeMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
     
   })
@@ -786,7 +783,7 @@ describe("findNameLikeMaxEmployees", function () {
 
     const data = {nameLike:'b', maxEmployees:2}
 
-    let companies = await Company.findNameLikeMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
 
   })
@@ -795,7 +792,7 @@ describe("findNameLikeMaxEmployees", function () {
 
     const data = {nameLike:'b', maxEmployees:1}
 
-    let companies = await Company.findNameLikeMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
 
   })
@@ -804,7 +801,7 @@ describe("findNameLikeMaxEmployees", function () {
 
     const data = {nameLike:'b', maxEmployees:0}
 
-    let companies = await Company.findNameLikeMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
 
     ]);
@@ -813,15 +810,15 @@ describe("findNameLikeMaxEmployees", function () {
 
 })
 
-/************************************** findMinMaxEmployees */
+// /************************************** findFilter - minEmployees + maxEmployees */
 
-describe("findMinMaxEmployees", function () {
+describe("findFilter minEmployees + maxEmployees", function () {
 
   test("works: finds all with 0 and 3", async function () {
 
     const data = {minEmployees:0, maxEmployees:3}
 
-    let companies = await Company.findMinMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -852,7 +849,7 @@ describe("findMinMaxEmployees", function () {
 
     const data = {minEmployees:1, maxEmployees:3}
 
-    let companies = await Company.findMinMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -883,7 +880,7 @@ describe("findMinMaxEmployees", function () {
 
     const data = {minEmployees:2, maxEmployees:3}
 
-    let companies = await Company.findMinMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c2",
@@ -907,7 +904,7 @@ describe("findMinMaxEmployees", function () {
 
     const data = {minEmployees:3, maxEmployees:3}
 
-    let companies = await Company.findMinMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c3",
@@ -924,7 +921,7 @@ describe("findMinMaxEmployees", function () {
 
     const data = {minEmployees:4, maxEmployees:3}
 
-    let companies = await Company.findMinMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
 
   })
@@ -936,7 +933,7 @@ describe("findMinMaxEmployees", function () {
 
     const data = {minEmployees:0, maxEmployees:2}
 
-    let companies = await Company.findMinMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -961,7 +958,7 @@ describe("findMinMaxEmployees", function () {
 
     const data = {minEmployees:0, maxEmployees:1}
 
-    let companies = await Company.findMinMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -978,7 +975,7 @@ describe("findMinMaxEmployees", function () {
 
     const data = {minEmployees:0, maxEmployees:0}
 
-    let companies = await Company.findMinMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([]);
 
   })
@@ -987,7 +984,7 @@ describe("findMinMaxEmployees", function () {
 
     const data = {minEmployees:1, maxEmployees:1}
 
-    let companies = await Company.findMinMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c1",
@@ -1004,7 +1001,7 @@ describe("findMinMaxEmployees", function () {
 
     const data = {minEmployees:2, maxEmployees:2}
 
-    let companies = await Company.findMinMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
 
       {
@@ -1023,7 +1020,7 @@ describe("findMinMaxEmployees", function () {
 
     const data = {minEmployees:3, maxEmployees:3}
 
-    let companies = await Company.findMinMaxEmployees(data);
+    let companies = await Company.findFilter(data);
     expect(companies).toEqual([
       {
         handle: "c3",
@@ -1043,7 +1040,6 @@ describe("findMinMaxEmployees", function () {
 describe("get", function () {
   test("works", async function () {
     let company = await Company.get("c1");
-    console.log(company)
     expect(company).toEqual({
       handle: "c1",
       name: "C1",
@@ -1083,7 +1079,6 @@ describe("get", function () {
     await Company.create(noJobCompany)
 
     let company = await Company.get("new");
-    console.log(company)
     expect(company).toEqual({
       handle: "new",
       name: "New",
